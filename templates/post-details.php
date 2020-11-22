@@ -51,7 +51,7 @@
                         <button class="form__error-button button" type="button">!</button>
                         <div class="form__error-text">
                         <h3 class="form__error-title">Ошибка валидации</h3>
-                        <p class="form__error-desc"><?= $comment_errors[0] ? $comment_errors['post-id'] : $comment_errors['comment'] ?></p>
+                        <p class="form__error-desc"><?= $comment_errors['post-id'] ?? $comment_errors['comment'] ?></p>
                     </div>
                     <?php endif; ?>
                 </div>

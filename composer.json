@@ -1,0 +1,8 @@
+{
+    "name": "mcode/readme",
+    "description": "student project",
+    "type": "project",
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2"
+    }
+}

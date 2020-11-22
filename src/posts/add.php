@@ -92,3 +92,15 @@ function upload_file(array $form, string $img_folder)
 
     return $file_name;
 }
+
+function get_user_followers($connection, $author_id)
+{
+    $select_followers_query =
+    "SELECT users.username, users.email
+    FROM users
+    INNER JOIN subscribe ON users.id = subscribe.follower_id
+    WHERE subscribe.author_id = ?";
+    $followers_mysqli = secure_query($connection, $select_followers_query, $author_id);
+    $followers = mysqli_fetch_all($followers_mysqli, MYSQLI_ASSOC);
+    return $followers;
+}

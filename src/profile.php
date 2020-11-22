@@ -4,7 +4,7 @@ function get_owner($connection, $owner_id)
     $select_owner_query =
     "SELECT users.id, users.username, users.avatar, users.dt_add, COUNT(subscribe.author_id) AS followers
     FROM users
-    INNER JOIN subscribe ON users.id = subscribe.author_id
+    LEFT JOIN subscribe ON users.id = subscribe.author_id
     WHERE users.id = ?
     GROUP BY users.id";
     $owner_mysqli = secure_query($connection, $select_owner_query, $owner_id);

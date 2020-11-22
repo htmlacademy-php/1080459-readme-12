@@ -1,7 +1,12 @@
 <?php
-require_once(__DIR__ . '/lib/base.php');
-require_once(__DIR__ . '/src/posts/comment.php');
-/** @var $connection */
+/**
+ * Валидирует и сохраняет комментарии к посту
+ *  */
+require_once __DIR__ . '/lib/base.php';
+require_once __DIR__ . '/src/posts/comment.php';
+/**
+ *  @var $connection
+ * */
 
 $validation_rules = [
     'post-id' => 'notexists:posts,id',

@@ -18,9 +18,18 @@ return $settings ?? [
         'password' => '',
         'host' => 'localhost',
         'port' => '3306',
-        'database' => 'readme',
+        'database' => 'readme'
+    ],
+    'smtp' => [
+        'server' => 'phpdemo.ru',
+        'port' => 25,
+        'sender' => 'keks@phpdemo.ru',
+        'user' => 'keks@phpdemo.ru',
+        'password' => 'htmlacademy',
+        'encryption' => false
     ],
     'site_name' => 'readme',
+    'site_url' => 'readme.edu',
     'page_limit' => 6,
 ];
 

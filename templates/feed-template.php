@@ -72,33 +72,42 @@
                                 </div>
                             <?php endswitch ?>
                         </div>
-                        <footer class="post__footer post__indicators">
-                            <div class="post__buttons">
-                            <a class="post__indicator post__indicator--likes button" href="like.php?id=<?= $post['id'] ?>" title="Лайк">
-                                <svg class="post__indicator-icon" width="20" height="17">
-                                <use xlink:href="#icon-heart"></use>
-                                </svg>
-                                <svg class="post__indicator-icon post__indicator-icon--like-active" width="20" height="17">
-                                <use xlink:href="#icon-heart-active"></use>
-                                </svg>
-                                <span><?= $post['likes'] ?? '' ?></span>
-                                <span class="visually-hidden">количество лайков</span>
-                            </a>
-                            <a class="post__indicator post__indicator--comments button" href="post.php?id=<?= $post['id'] ?>" title="Комментарии">
-                                <svg class="post__indicator-icon" width="19" height="17">
-                                <use xlink:href="#icon-comment"></use>
-                                </svg>
-                                <span><?= $post['comments'] ?? ''?></span>
-                                <span class="visually-hidden">количество комментариев</span>
-                            </a>
-                            <a class="post__indicator post__indicator--repost button" href="#" title="Репост">
-                                <svg class="post__indicator-icon" width="19" height="17">
-                                <use xlink:href="#icon-repost"></use>
-                                </svg>
-                                <span>5</span>
-                                <span class="visually-hidden">количество репостов</span>
-                            </a>
+                        <footer class="post__footer">
+                            <div class="post__indicators">
+                                <div class="post__buttons">
+                                    <a class="post__indicator post__indicator--likes button" href="like.php?id=<?= $post['id'] ?>" title="Лайк">
+                                        <svg class="post__indicator-icon" width="20" height="17">
+                                        <use xlink:href="#icon-heart"></use>
+                                        </svg>
+                                        <svg class="post__indicator-icon post__indicator-icon--like-active" width="20" height="17">
+                                        <use xlink:href="#icon-heart-active"></use>
+                                        </svg>
+                                        <span><?= $post['likes'] ?? '' ?></span>
+                                        <span class="visually-hidden">количество лайков</span>
+                                    </a>
+                                    <a class="post__indicator post__indicator--comments button" href="post.php?id=<?= $post['id'] ?>" title="Комментарии">
+                                        <svg class="post__indicator-icon" width="19" height="17">
+                                        <use xlink:href="#icon-comment"></use>
+                                        </svg>
+                                        <span><?= $post['comments'] ?? ''?></span>
+                                        <span class="visually-hidden">количество комментариев</span>
+                                    </a>
+                                    <a class="post__indicator post__indicator--repost button" href="#" title="Репост">
+                                        <svg class="post__indicator-icon" width="19" height="17">
+                                        <use xlink:href="#icon-repost"></use>
+                                        </svg>
+                                        <span>5</span>
+                                        <span class="visually-hidden">количество репостов</span>
+                                    </a>
+                                </div>
                             </div>
+                            <ul class="post__tags">
+                                <?php foreach ((array) $post['tags']  as $tag_id => $tag_name): ?>
+                                    <li>
+                                        <a href="search.php?keywords=<?= '%23'.$tag_name ?>"><?= '#'.$tag_name ?></a>
+                                    </li>
+                                <?php endforeach ?>
+                            </ul>
                         </footer>
                     </article>
                     <?php endforeach; ?>

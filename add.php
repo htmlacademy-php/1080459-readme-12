@@ -2,6 +2,8 @@
 
 require_once(__DIR__ . '/lib/base.php');
 require_once(__DIR__ . '/src/posts/add.php');
+require_once(__DIR__ . '/src/notification.php');
+
 /** @var $connection */
 
 $validation_rules = [
@@ -44,6 +46,7 @@ $field_error_codes = [
     'photo-file' => 'Файл фото',
     'quote-author' => 'Автор'
 ];
+
 $img_folder = __DIR__ . '\\img\\';
 $user = get_user();
 if ($user === null) {
@@ -79,7 +82,8 @@ if (count($_POST) > 0 && isset($_POST['form-type'])) {
         $file_url = ($form_type === 'photo') ? upload_file($form, $img_folder) : null;
         $post_id = save_post($connection, $form['values'], $post_types, $user, $file_url);
         add_tags($_POST['tags'], $post_id, $connection);
-
+        $followers = get_user_followers($connection, $user['id']);
+        new_post_notification($followers, $settings['smtp'], $user, $form['values']['heading'], $post_id, $settings['site_url']);
         $URL = '/post.php?id=' . $post_id;
         header("Location: $URL");
     }
