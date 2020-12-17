@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Получаем пост из БД по id
+ *
+ * @param  mixed $connection
+ * @param  mixed $post_id
+ * @return void
+ */
 function get_post($connection, $post_id)
 {
     $select_post_by_id = "SELECT posts.*, users.username, users.avatar, content_types.type_class,
@@ -20,6 +27,13 @@ function get_post($connection, $post_id)
     return $post;
 }
 
+/**
+ * Получаем автора поста по id
+ *
+ * @param  mixed $connection
+ * @param  mixed $author_id
+ * @return void
+ */
 function get_post_author($connection, $author_id)
 {
     $select_post_author = "SELECT users.id, users.username, users.avatar, users.dt_add,
@@ -34,6 +48,13 @@ function get_post_author($connection, $author_id)
     return $author;
 }
 
+/**
+ * Получаем комментарии к посту по id
+ *
+ * @param  mixed $connection
+ * @param  mixed $post_id
+ * @return void
+ */
 function get_post_comments($connection, $post_id)
 {
     $select_post_comments = "SELECT comments.*, users.id AS author_id, users.username AS author_name, users.avatar FROM comments INNER JOIN users ON comments.user_id=users.id WHERE post_id = ? ORDER BY dt_add DESC;";
@@ -42,6 +63,13 @@ function get_post_comments($connection, $post_id)
     return $comments;
 }
 
+/**
+ * Увеличивает счетчик просмотра поста
+ *
+ * @param  mixed $connection
+ * @param  mixed $post_id
+ * @return void
+ */
 function increase_post_views($connection, $post_id)
 {
     $update_post_view_count_query = "UPDATE posts SET view_count = view_count + 1 WHERE id = ?";

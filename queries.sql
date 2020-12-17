@@ -28,5 +28,8 @@ SELECT * FROM posts WHERE author_id=1;
 /* получить список комментариев для одного поста, в комментариях должен быть логин пользователя */
 SELECT comments.content, users.username FROM comments INNER JOIN users ON comments.user_id=users.id WHERE comments.post_id=4;
 /* добавить лайк к посту */
-INSERT into likes SET user_id=1, post_id=3;
+INSERT INTO likes SET user_id=1, post_id=3;
+/*Сообщения */
+INSERT INTO messages SET dt_add = '2020-12-06 10:28:35', content = 'Озеро Байкал – огромное древнее озеро в горах Сибири к северу от монгольской границы. Байкал считается самым глубоким озером в мире. Он окружен сетью пешеходных маршрутов, называемых Большой байкальской тропой. Деревня Листвянка, расположенная на западном берегу озера, – популярная отправная точка для летних экскурсий. Зимой здесь можно кататься на коньках и собачьих упряжках.', sender_id = 1, receiver_id = 3
+INSERT INTO messages SET dt_add = '2020-12-06 10:30:12', content = 'Здорова, чувак!', sender_id = 3, receiver_id = 4
 

@@ -1,13 +1,30 @@
 <?php
 
-function ignoreField (array $form, string $field_name)
+/**
+ * Убирает поле, в случае использования другого
+ *
+ * @param  array $form Массив полей-значений из формы
+ * @param  string $field_name Название поля
+ * @return array
+ */
+function ignoreField (array $form, string $field_name): array
 {
     unset($form['errors'][$field_name]);
     unset($form['values'][$field_name]);
     return $form;
 }
 
-function save_post($connection, array $post, array $post_types, array $user, $file_url = null)
+/**
+ * Сохраняет пост в БД
+ *
+ * @param  mysqli $connection
+ * @param  array $post
+ * @param  array $post_types Типы постов
+ * @param  array $user Автор поста
+ * @param  string $file_url Путь к файлу
+ * @return int id поста в БД
+ */
+function save_post(mysqli $connection, array $post, array $post_types, array $user, $file_url = null)
 {
     $post_id = null;
     $post_type = $post['form-type'];
@@ -57,10 +74,18 @@ function save_post($connection, array $post, array $post_types, array $user, $fi
     return $post_id;
 }
 
+/**
+ * Сохраняет теги в БД
+ *
+ * @param  mixed $new_tags
+ * @param  mixed $post_id
+ * @param  mixed $connection
+ * @return void
+ */
 function add_tags(string $new_tags, $post_id, $connection)
 {
     $new_tags = array_unique(explode(' ', $new_tags));
-    // Небезопасный запрос.
+    $new_tags = htmlspecialchars($new_tags);
     $select_tags_query = "SELECT * FROM hashtags WHERE tag_name in ('" . implode("','", $new_tags) . "')";
     $tags_mysqli = mysqli_query($connection, $select_tags_query);
     $tags = mysqli_fetch_all($tags_mysqli, MYSQLI_ASSOC);
@@ -77,23 +102,33 @@ function add_tags(string $new_tags, $post_id, $connection)
     }
 }
 
+/**
+ * Сохраняет изображение из формы либо скачивает изображение по ссылке
+ *
+ * @param  mixed $form
+ * @param  mixed $img_folder
+ * @return void
+ */
 function upload_file(array $form, string $img_folder)
 {
     if (isset($form['values']['photo-file'])) {
-        $file_name = $form['values']['photo-file']['name'];
-        $file_path = $img_folder . $file_name;
-        move_uploaded_file($_FILES['photo-file']['tmp_name'], $file_path);
-    } else {
-        $downloadedFileContents = file_get_contents($_POST['photo-url']);
-        $file_name = basename($_POST['photo-url']);
-        $file_path = $img_folder . $file_name;
-        $save = file_put_contents($file_path, $downloadedFileContents);
+        return save_image('photo-file', $img_folder);
     }
-
+    $downloadedFileContents = file_get_contents($_POST['photo-url']);
+    $file_name = basename($_POST['photo-url']);
+    $file_path = $img_folder . $file_name;
+    $save = file_put_contents($file_path, $downloadedFileContents);
     return $file_name;
 }
 
-function get_user_followers($connection, $author_id)
+/**
+ * Возвращает фолловеров заданного пользователя
+ *
+ * @param  mysqli $connection
+ * @param  mixed $author_id
+ * @return array
+ */
+function get_user_followers(mysqli $connection, $author_id): array
 {
     $select_followers_query =
     "SELECT users.username, users.email

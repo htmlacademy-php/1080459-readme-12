@@ -16,6 +16,7 @@ $user['subscribed'] = get_user_subscribed($connection, $user['id'], $owner_id);
 $posts = get_owner_posts($connection, $owner_id);
 $likes = get_owner_likes($connection, $owner_id);
 $subscribes = get_owner_subscribes($connection, $user['id'], $owner_id);
+$add_post_button = true;
 
 $page_content = include_template(
     'profile-template.php',
@@ -33,7 +34,8 @@ $layout_content = include_template(
     [
         'content' => $page_content,
         'user' => $user,
-        'title' => $title
+        'title' => $title,
+        'add_post_button' => $add_post_button
     ]
 );
 print($layout_content);

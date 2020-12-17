@@ -13,7 +13,6 @@ require_once(__DIR__ . '/../src/user/user.php');
 session_start();
 
 $settings = require_once(__DIR__ . '/../src/settings/settings.php');
-
 $connection = db_connect(
     $settings['mysql']['host'] . ':' . $settings['mysql']['port'],
     $settings['mysql']['user'],

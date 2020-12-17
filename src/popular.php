@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Получает из БД количество постов,
+ *
+ * @param  mixed $connection
+ * @param  mixed $filter Фильтр по типу контента
+ * @return array
+ */
 function get_total_posts($connection, $filter)
 {
     $count_posts_query =
@@ -13,6 +21,16 @@ function get_total_posts($connection, $filter)
     return $total_posts;
 }
 
+/**
+ * Получает из БД список популярных постов
+ *
+ * @param  mysqli $connection
+ * @param  string $filter Фильтр по типу контента
+ * @param  string $sort Сортировка по лайкам/дате/просмотрам
+ * @param  int $page_limit Количетство постов на страницу
+ * @param  int $page_offset Сколько постов пропускаем
+ * @return array
+ */
 function get_popular_posts($connection, $filter, $sort, $page_limit, $page_offset)
 {
     $select_posts_query =

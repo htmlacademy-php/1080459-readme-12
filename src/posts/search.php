@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Поиск записей
+ *
+ * @param  mixed $connection
+ * @param  mixed $keywords
+ * @return void
+ */
 function search_posts($connection, $keywords)
 {
     $search_query = "SELECT posts.*, users.username, users.avatar, content_types.type_class,

@@ -9,9 +9,11 @@ if ($user === null) {
     exit();
 }
 $title = $settings['site_name'] . ' | Моя лента';
-$filter = white_list($_GET['filter'], ["text","quote","photo","link","video"]);
 $content_types = get_content_types($connection);
+$content_type_names = array_column($content_types, 'type_class');
+$filter = white_list($_GET['filter'], $content_type_names);
 $posts = get_feed_posts($connection, $filter, $user['id']);
+$add_post_button = true;
 
 $page_content = include_template(
     'feed-template.php',
@@ -27,7 +29,8 @@ $layout_content = include_template(
         'title' => $title,
         'active_section' => 'feed',
         'user' => $user,
-        'content' => $page_content
+        'content' => $page_content,
+        'add_post_button' => $add_post_button
     ]
 );
 print($layout_content);

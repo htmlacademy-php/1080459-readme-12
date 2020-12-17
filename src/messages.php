@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Получает список диалогов - пользователей от которых или которым есть сообщения
+ *
+ * @param  mixed $connection
+ * @param  mixed $user_id Пользователь
+ * @return array Список диалогов
+ */
 function get_dialogs($connection, $user_id)
 {
     $select_dialogs_query = "SELECT dialog, username, avatar, content, sender_id, last_message
@@ -11,8 +19,7 @@ function get_dialogs($connection, $user_id)
     ON messages.dt_add = groups.last_message
     INNER JOIN users
     ON users.id = dialog
-    ORDER BY last_message DESC
-    ";
+    ORDER BY last_message DESC ";
     $dialogs_mysqli = secure_query($connection, $select_dialogs_query, $user_id, $user_id, $user_id);
     while ($dialogs = mysqli_fetch_array($dialogs_mysqli, MYSQLI_ASSOC)) {
         $dialogsAssoc[$dialogs['dialog']] = array_slice($dialogs, 1);
@@ -21,6 +28,13 @@ function get_dialogs($connection, $user_id)
     return $dialogsAssoc;
 }
 
+/**
+ * Получает список отправленных и полученных сообщений пользователя
+ *
+ * @param  mixed $connection
+ * @param  mixed $user_id Пользователь
+ * @return array Список сообщений
+ */
 function get_messages($connection, $user_id)
 {
     $select_messages_query =
@@ -34,7 +48,16 @@ function get_messages($connection, $user_id)
     return $messages;
 }
 
-function add_message($connection, $sender_id, $receiver_id, $message)
+/**
+ * Добавляет сообщение в БД
+ *
+ * @param  mysqli $connection
+ * @param  mixed $sender_id Отправитель
+ * @param  mixed $receiver_id Получатель
+ * @param  mixed $message Сообщение
+ * @return mixed Результат выполнения запроса
+ */
+function add_message($connection, $sender_id, $receiver_id, string $message)
 {
     $add_message_query =
     "INSERT into messages

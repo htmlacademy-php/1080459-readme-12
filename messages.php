@@ -14,7 +14,7 @@ if ($user === null) {
     exit();
 }
 $title = $settings['site_name'] . ' | Сообщения';
-
+$add_post_button = true;
 
 if (count($_POST) > 0 && isset($_POST['receiver-id']) && ($_POST['receiver-id'] != $user['id'])) {
     $receiver_id = $_POST['receiver-id'];
@@ -30,7 +30,10 @@ if (count($_POST) > 0 && isset($_POST['receiver-id']) && ($_POST['receiver-id'] 
 }
 
 $dialogs = get_dialogs($connection, $user['id']);
-$active_dialog_id = $_GET['id'] ?? array_key_first($dialogs);
+if (($dialogs !== null) || ($GET['id'] !== null)) {
+    $active_dialog_id = $_GET['id'] ?? array_key_first($dialogs);
+}
+
 $messages = get_messages($connection, $user['id']);
 foreach ($messages as $message) {
     array_push($dialogs[$message['dialog']]['messages'], $message);
@@ -52,7 +55,8 @@ $layout_content = include_template(
         'title' => $title,
         'user' => $user,
         'content' => $page_content,
-        'active_section' => 'popular'
+        'active_section' => 'popular',
+        'add_post_button' => $add_post_button
     ]
 );
 print($layout_content);

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Отправляет уведомление о новом сообщении
+ *
+ * @param  mixed $mailing_list
+ * @param  mixed $smtp_settings
+ * @param  mixed $post_author
+ * @param  mixed $post_title
+ * @param  mixed $post_id
+ * @param  mixed $site_url
+ * @return void
+ */
 function new_post_notification($mailing_list, $smtp_settings, $post_author, $post_title, $post_id, $site_url)
 {
     $transport = new Swift_SmtpTransport($smtp_settings['server'], $smtp_settings['port']);
@@ -19,6 +30,15 @@ function new_post_notification($mailing_list, $smtp_settings, $post_author, $pos
     }
 }
 
+/**
+ * Отправляет уведомление о новом подписчике
+ *
+ * @param  mixed $recepient
+ * @param  mixed $follower
+ * @param  mixed $smtp_settings
+ * @param  mixed $site_url
+ * @return void
+ */
 function new_follower_notification($recepient, $follower, $smtp_settings, $site_url)
 {
     $transport = new Swift_SmtpTransport($smtp_settings['server'], $smtp_settings['port']);

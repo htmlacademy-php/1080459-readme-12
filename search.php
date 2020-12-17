@@ -23,6 +23,7 @@ if (count($_GET) > 0) {
         exit();
     }
 }
+$add_post_button = true;
 $page_content = include_template(
     'search-template.php',
     [
@@ -35,7 +36,8 @@ $layout_content = include_template(
     [
         'title' => $title,
         'user' => $user,
-        'content' => $page_content
+        'content' => $page_content,
+        'add_post_button' => $add_post_button
     ]
 );
 print($layout_content);

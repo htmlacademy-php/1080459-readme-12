@@ -43,106 +43,110 @@
                     </li>
                     <?php foreach($content_types as $content_type): ?>
                         <li class="popular__filters-item filters__item">
-                            <a class="button filters__button filters__button--<?=$content_type['type_class'];?> <?= ($filter == $content_type['type_class']) ? 'filters__button--active' : ''?>" href="popular.php?filter=<?=$content_type['type_class'];?>">
-                                <span class="visually-hidden"><?=$content_type['type_name'];?></span>
+                            <a class="button filters__button <?= $content_type['type_class'] ? 'filters__button--'.$content_type['type_class'] : '' ?> <?= ($filter == $content_type['type_class']) ? 'filters__button--active' : ''?>" href="popular.php?filter=<?=$content_type['type_class'] ?>">
+                                <span class="visually-hidden"><?= $content_type['type_name'] ?></span>
                                 <svg class="filters__icon" width="22" height="21">
-                                    <use xlink:href="#icon-filter-<?=$content_type['type_class'];?>"></use>
+                                    <use xlink:href="#icon-filter-<?= $content_type['type_class'] ?? '' ?>"></use>
                                 </svg>
                             </a>
                         </li>
-                    <?php endforeach ?>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
-        <div class="popular__posts">
-            <?php foreach($posts as $index => $post): ?>
-                <article class="popular__post post post-<?=$post['type_class'];?>">
-                    <header class="post__header">
-                        <h2><a href="post.php?id=<?=$post['id']?>"><?=$post['title'];?></a></h2>
-                    </header>
-                    <div class="post__main">
-                        <?php switch($post['type_class']): case 'quote': ?>
-                            <blockquote>
-                                <p><?=htmlspecialchars($post['content']) ?></p>
-                                <cite><?=htmlspecialchars($post['quote_author']) ?></cite>
-                            </blockquote>
-                        <?php break; case 'text': ?>
-                            <p><?=htmlspecialchars(truncate_text($post['content']));?></p>
-                            <?php if (mb_strlen($post['content']) > 300):?>
-                                <a class="post-text__more-link" href="#">Читать далее</a>
-                            <?php endif; ?>
-                        <?php break; case 'photo': ?>
-                            <div class="post-photo__image-wrapper">
-                                <img src="img/<?=$post['content'];?>" alt="Фото от пользователя" width="360" height="240">
-                            </div>
-                        <?php break; case 'link': ?>
-                            <div class="post-link__wrapper">
-                                <a class="post-link__external" href="<?=$post['content'];?>" title="Перейти по ссылке">
-                                    <div class="post-link__info-wrapper">
-                                        <div class="post-link__icon-wrapper">
-                                            <img src="https://www.google.com/s2/favicons?domain=vitadental.ru" alt="Иконка">
+        <?php if (isset($posts)) : ?>
+            <div class="popular__posts">
+                <?php foreach($posts as $post): ?>
+                    <article class="popular__post post <?= $post['type_class'] ? 'post-'.$post['type_class'] : '' ?>">
+                        <header class="post__header">
+                            <h2><a href="post.php?id=<?= $post['id'] ?? '' ?>"><?= $post['title'] ? htmlspecialchars($post['title']) : '' ?></a></h2>
+                        </header>
+                        <div class="post__main">
+                            <?php switch($post['type_class']): case 'quote': ?>
+                                <blockquote>
+                                    <p><?= $post['content'] ? htmlspecialchars($post['content']) : '' ?></p>
+                                    <cite><?= $post['quote_author'] ? htmlspecialchars($post['quote_author']) : '' ?></cite>
+                                </blockquote>
+                            <?php break; case 'text': ?>
+                                <p><?= $post['content'] ? htmlspecialchars(truncate_text($post['content'])) : '' ?></p>
+                                <?php if (mb_strlen($post['content']) > 300):?>
+                                    <a class="post-text__more-link" href="#">Читать далее</a>
+                                <?php endif; ?>
+                            <?php break; case 'photo': ?>
+                                <div class="post-photo__image-wrapper">
+                                    <?php if (isset($post['content'])) : ?>
+                                        <img src="img/<?= htmlspecialchars($post['content']) ?>" alt="Фото от пользователя" width="360" height="240">
+                                    <?php endif; ?>
+                                </div>
+                            <?php break; case 'link': ?>
+                                <div class="post-link__wrapper">
+                                    <a class="post-link__external" href="<?= $post['content'] ? htmlspecialchars($post['content']) : '' ?>" title="Перейти по ссылке">
+                                        <div class="post-link__info-wrapper">
+                                            <div class="post-link__icon-wrapper">
+                                                <img src="https://www.google.com/s2/favicons?domain=vitadental.ru" alt="Иконка">
+                                            </div>
+                                            <div class="post-link__info">
+                                                <h3><?= $post['title'] ? htmlspecialchars($post['title']) : '' ?></h3>
+                                            </div>
                                         </div>
-                                        <div class="post-link__info">
-                                            <h3><?=$post['title'];?></h3>
-                                        </div>
+                                        <span><?= $post['content'] ? htmlspecialchars($post['content']) : '' ?></span>
+                                    </a>
+                                </div>
+                            <?php break; case 'video': ?>
+                                <div class="post-video__block">
+                                <div class="post-video__preview">
+                                    <?= $post['youtube_url'] ? embed_youtube_cover($post['youtube_url']) : ''; ?>
+                                    <img src="img/coast-medium.jpg" alt="Превью к видео" width="360" height="188">
                                     </div>
-                                    <span><?=htmlspecialchars($post['content']);?></span>
-                                </a>
-                            </div>
-                        <?php break; case 'video': ?>
-                            <div class="post-video__block">
-                            <div class="post-video__preview">
-                                <?
-                                // =embed_youtube_cover(/* вставьте ссылку на видео */);
-                                ?>
-                                <img src="img/coast-medium.jpg" alt="Превью к видео" width="360" height="188">
+                                    <a href="post-details.php" class="post-video__play-big button">
+                                        <svg class="post-video__play-big-icon" width="14" height="14">
+                                            <use xlink:href="#icon-video-play-big"></use>
+                                        </svg>
+                                        <span class="visually-hidden">Запустить проигрыватель</span>
+                                    </a>
                                 </div>
-                                <a href="post-details.php" class="post-video__play-big button">
-                                    <svg class="post-video__play-big-icon" width="14" height="14">
-                                        <use xlink:href="#icon-video-play-big"></use>
-                                    </svg>
-                                    <span class="visually-hidden">Запустить проигрыватель</span>
-                                </a>
-                            </div>
-                        <?php endswitch ?>
-                    </div>
-                    <footer class="post__footer">
-                        <div class="post__author">
-                            <a class="post__author-link" href="profile.php?id=<?= $post['author_id'] ?? ''?>" title="Автор">
-                                <div class="post__avatar-wrapper">
-                                    <img class="post__author-avatar" src="img/<?=$post['avatar'];?>" alt="Аватар пользователя">
-                                </div>
-                                <div class="post__info">
-                                    <b class="post__author-name"><?=$post['username'];?></b>
-                                    <time class="post__time" datetime="<?= $post['dt_add'] ?? '' ?>" title="<?= date_create_from_format('Y-m-d H:i:s', $post['dt_add'])->format('d.m.Y H:i'); ?>"><?= absolute_time_to_relative($post['dt_add'], 'назад'); ?></time>
-                                </div>
-                            </a>
+                            <?php endswitch ?>
                         </div>
-                        <div class="post__indicators">
-                            <div class="post__buttons">
-                                <a class="post__indicator post__indicator--likes button" href="like.php?id=<?= $post['id'] ?>" title="Лайк">
-                                    <svg class="post__indicator-icon" width="20" height="17">
-                                        <use xlink:href="#icon-heart"></use>
-                                    </svg>
-                                    <svg class="post__indicator-icon post__indicator-icon--like-active" width="20" height="17">
-                                        <use xlink:href="#icon-heart-active"></use>
-                                    </svg>
-                                    <span><?= $post['likes'] ?? '' ?></span>
-                                    <span class="visually-hidden">количество лайков</span>
-                                </a>
-                                <a class="post__indicator post__indicator--comments button" href="post.php?id=<?= $post['id'] ?>" title="Комментарии">
-                                    <svg class="post__indicator-icon" width="19" height="17">
-                                        <use xlink:href="#icon-comment"></use>
-                                    </svg>
-                                    <span><?= $post['comments'] ?? '' ?></span>
-                                    <span class="visually-hidden">количество комментариев</span>
+                        <footer class="post__footer">
+                            <div class="post__author">
+                                <a class="post__author-link" href="profile.php?id=<?= $post['author_id'] ?? '' ?>" title="Автор">
+                                    <div class="post__avatar-wrapper">
+                                        <?php if (isset($post['avatar'])) : ?>
+                                            <img class="post__author-avatar" src="img/<?=$post['avatar']?>" alt="Аватар пользователя">
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="post__info">
+                                        <b class="post__author-name"><?= $post['username'] ? htmlspecialchars($post['username']) : '' ?></b>
+                                        <time class="post__time" datetime="<?= $post['dt_add'] ?? '' ?>" title="<?= date_create_from_format('Y-m-d H:i:s', $post['dt_add'])->format('d.m.Y H:i'); ?>"><?= absolute_time_to_relative($post['dt_add']); ?></time>
+                                    </div>
                                 </a>
                             </div>
-                        </div>
-                    </footer>
-                </article>
-            <?php endforeach; ?>
-        </div>
+                            <div class="post__indicators">
+                                <div class="post__buttons">
+                                    <a class="post__indicator post__indicator--likes button" href="like.php?id=<?= $post['id'] ?>" title="Лайк">
+                                        <svg class="post__indicator-icon" width="20" height="17">
+                                            <use xlink:href="#icon-heart"></use>
+                                        </svg>
+                                        <svg class="post__indicator-icon post__indicator-icon--like-active" width="20" height="17">
+                                            <use xlink:href="#icon-heart-active"></use>
+                                        </svg>
+                                        <span><?= $post['likes'] ?? '' ?></span>
+                                        <span class="visually-hidden">количество лайков</span>
+                                    </a>
+                                    <a class="post__indicator post__indicator--comments button" href="post.php?id=<?= $post['id'] ?>" title="Комментарии">
+                                        <svg class="post__indicator-icon" width="19" height="17">
+                                            <use xlink:href="#icon-comment"></use>
+                                        </svg>
+                                        <span><?= $post['comments'] ?? '' ?></span>
+                                        <span class="visually-hidden">количество комментариев</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </footer>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
         <?php if ($total_posts > $page_limit):?>
             <div class="popular__page-links">
                 <?php if ($page_number > 1):?>

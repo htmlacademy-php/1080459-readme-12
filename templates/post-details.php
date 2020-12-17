@@ -1,6 +1,6 @@
 <main class="page__main page__main--publication">
   <div class="container">
-    <h1 class="page__title page__title--publication"><?=$post['title']?></h1>
+    <h1 class="page__title page__title--publication"><?= htmlspecialchars($post['title']) ?? '' ?></h1>
     <section class="post-details">
       <h2 class="visually-hidden">Публикация</h2>
       <div class="post-details__wrapper">
@@ -18,17 +18,17 @@
                 <svg class="post__indicator-icon post__indicator-icon--like-active" width="20" height="17">
                   <use xlink:href="#icon-heart-active"></use>
                 </svg>
-                <span><?= $post['likes']?></span>
+                <span><?= $post['likes'] ?? '' ?></span>
                 <span class="visually-hidden">количество лайков</span>
               </a>
-              <a class="post__indicator post__indicator--comments button" href="#" title="Комментарии">
+              <a class="post__indicator post__indicator--comments button" href="post.php?id=<?= $post['id'] ?>" title="Комментарии">
                 <svg class="post__indicator-icon" width="19" height="17">
                   <use xlink:href="#icon-comment"></use>
                 </svg>
-                <span><?= $post['comments']?></span>
+                <span><?= $post['comments'] ?? '' ?></span>
                 <span class="visually-hidden">количество комментариев</span>
               </a>
-              <a class="post__indicator post__indicator--repost button" href="#" title="Репост">
+              <a class="post__indicator post__indicator--repost button" href="repost.php?id=<?= $post['id'] ?>" title="Репост">
                 <svg class="post__indicator-icon" width="19" height="17">
                   <use xlink:href="#icon-repost"></use>
                 </svg>
@@ -57,36 +57,38 @@
                 </div>
               <button class="comments__submit button button--green" type="submit">Отправить</button>
             </form>
-            <div class="comments__list-wrapper">
-              <ul class="comments__list">
-                <?php foreach($comments as $index => $comment): ?>
-                <li class="comments__item user">
-                  <div class="comments__avatar">
-                    <a class="user__avatar-link" href="#">
-                      <img class="comments__picture" src="img/<?=$comment['avatar'];?>" alt="Аватар пользователя">
-                    </a>
-                  </div>
-                  <div class="comments__info">
-                    <div class="comments__name-wrapper">
-                      <a class="comments__user-name" href="profile.php?id=?<?= $comment['author_id']?>">
-                        <span><?= $comment['author_name'] ?? '' ?></span>
-                      </a>
-                      <time class="comments__time" datetime="<?= $comment['dt_add'] ?>">
-                        <?= absolute_time_to_relative($comment['dt_add'], 'назад'); ?>
-                    </time>
+            <?php if (isset($comments)) : ?>
+                <div class="comments__list-wrapper">
+                <ul class="comments__list">
+                    <?php foreach($comments as $comment): ?>
+                    <li class="comments__item user">
+                    <div class="comments__avatar">
+                        <a class="user__avatar-link" href="#">
+                        <img class="comments__picture" src="img/<?=$comment['avatar'];?>" alt="Аватар пользователя">
+                        </a>
                     </div>
-                    <p class="comments__text">
-                      <?= $comment['content'] ?? '' ?>
-                    </p>
-                  </div>
-                </li>
-                <?php endforeach; ?>
-              </ul>
-              <a class="comments__more-link" href="#">
-                <span>Показать все комментарии</span>
-                <sup class="comments__amount"><?= count($comments) ?></sup>
-              </a>
-            </div>
+                    <div class="comments__info">
+                        <div class="comments__name-wrapper">
+                        <a class="comments__user-name" href="profile.php?id=?<?= $comment['author_id']?>">
+                            <span><?= $comment['author_name'] ?? '' ?></span>
+                        </a>
+                        <time class="comments__time" datetime="<?= $comment['dt_add'] ?>">
+                            <?= absolute_time_to_relative($comment['dt_add'], 'назад'); ?>
+                        </time>
+                        </div>
+                        <p class="comments__text">
+                        <?= $comment['content'] ?? '' ?>
+                        </p>
+                    </div>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+                <a class="comments__more-link" href="#">
+                    <span>Показать все комментарии</span>
+                    <sup class="comments__amount"><?= count($comments) ?></sup>
+                </a>
+                </div>
+            <?php endif; ?>
           </div>
         </div>
         <div class="post-details__user user">
@@ -118,7 +120,7 @@
                 <a class="user__button user__button--subscription button button--main" href="subscribe.php?id=<?= $author['id'] ?>"><?= $user['subscribed'] ? 'Отписаться' : 'Подписаться' ?></a>
                 <a class="user__button user__button--writing button button--green" href="message.php">Сообщение</a>
             </div>
-            <? endif; ?>
+            <?php endif; ?>
 
         </div>
       </div>

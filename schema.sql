@@ -23,6 +23,9 @@ CREATE TABLE IF NOT EXISTS posts (
 id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 author_id INT UNSIGNED,
 post_type INT UNSIGNED,
+repost BIT,
+original_author_id INT UNSIGNED,
+original_post_id INT UNSIGNED,
 dt_add DATETIME,
 title VARCHAR(128),
 content TEXT,
@@ -82,9 +85,6 @@ dt_add DATETIME,
 content TEXT,
 sender_id INT UNSIGNED,
 receiver_id INT UNSIGNED,
-FOREIGN KEY (sender_id) REFERENCES users(id)
-ON UPDATE CASCADE
-ON DELETE CASCADE,
 FOREIGN KEY (receiver_id) REFERENCES users(id)
 ON UPDATE CASCADE
 ON DELETE CASCADE

@@ -39,17 +39,17 @@
             <nav class="header__nav">
                 <ul class="header__my-nav">
                     <li class="header__my-page header__my-page--popular">
-                        <a class="header__page-link <?= ($active_section == 'popular') ? 'header__page-link--active' : ''?>" href="popular.php" title="Популярный контент">
+                        <a class="header__page-link <?= ($active_section == 'popular') ? 'header__page-link--active' : '' ?>" href="popular.php" title="Популярный контент">
                             <span class="visually-hidden">Популярный контент</span>
                         </a>
                     </li>
                     <li class="header__my-page header__my-page--feed">
-                        <a class="header__page-link <?= ($active_section == 'feed') ? 'header__page-link--active' : ''?>" href="feed.php" title="Моя лента">
+                        <a class="header__page-link <?= ($active_section == 'feed') ? 'header__page-link--active' : '' ?>" href="feed.php" title="Моя лента">
                             <span class="visually-hidden">Моя лента</span>
                         </a>
                     </li>
                     <li class="header__my-page header__my-page--messages">
-                        <a class="header__page-link <?= ($active_section == 'messages') ? 'header__page-link--active' : ''?>" href="messages.php" title="Личные сообщения">
+                        <a class="header__page-link <?= ($active_section == 'messages') ? 'header__page-link--active' : '' ?>" href="messages.php" title="Личные сообщения">
                             <span class="visually-hidden">Личные сообщения</span>
                         </a>
                     </li>
@@ -59,7 +59,9 @@
                     <li class="header__profile">
                         <a class="header__profile-link" href="#">
                             <div class="header__avatar-wrapper">
+                            <?php if (isset($user['avatar'])) : ?>
                                 <img class="header__profile-avatar" src="img/<?= $user['avatar']?>" alt="Аватар профиля">
+                            <?php endif; ?>
                             </div>
                             <div class="header__profile-name">
                                 <span>
@@ -84,7 +86,6 @@
                                         <a class="header__profile-nav-link" href="messages.php">
                                             <span class="header__profile-nav-text">
                                                 Сообщения
-                                            <i class="header__profile-indicator">2</i>
                                         </span>
                                         </a>
                                     </li>
@@ -100,7 +101,7 @@
                         </div>
                     </li>
                     <li>
-                        <a class="header__post-button button button--transparent" href="add.php">Пост</a>
+                        <a class="header__post-button button button--transparent" href="<?= ($add_post_button) ? 'add.php' : 'feed.php' ?>"> <?= ($add_post_button) ? 'Пост' : 'Закрыть' ?></a>
                     </li>
                 </ul>
             </nav>
@@ -108,7 +109,7 @@
     </div>
 </header>
 
-<?= $content; ?>
+<?= $content ?? '' ?>
 
 <footer class="footer">
     <div class="footer__wrapper">
@@ -164,8 +165,8 @@
         </div>
     </div>
 </footer>
-<script src="libs/dropzone.js"></script>
-<script src="js/dropzone-settings.js"></script>
+<!-- <script src="libs/dropzone.js"></script> -->
+<!-- <script src="js/dropzone-settings.js"></script> -->
 <script src="js/main.js"></script>
 </body>
 </html>

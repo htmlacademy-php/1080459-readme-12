@@ -53,7 +53,6 @@
     </div>
   </div>
 </header>
-
 <main class="page__main page__main--registration">
   <div class="container">
     <h1 class="page__title page__title--registration">Регистрация</h1>
@@ -76,7 +75,7 @@
           </div>
           <div class="registration__input-wrapper form__input-wrapper">
             <label class="registration__label form__label" for="registration-login">Логин <span class="form__input-required">*</span></label>
-            <div class="form__input-section <?php if (!empty($form_errors['login'])):?>form__input-section--error<?php endif; ?>">
+            <div class="form__input-section <?php (!empty($form_errors['login'])) ? 'form__input-section--error' : '' ?>">
               <input class="registration__input form__input" id="registration-login" type="text" name="login" placeholder="Укажите логин" value=<?= $form_values['login'] ?>>
               <button class="form__error-button button" type="button">!<span class="visually-hidden">Информация об ошибке</span></button>
               <div class="form__error-text">
@@ -87,7 +86,7 @@
           </div>
           <div class="registration__input-wrapper form__input-wrapper">
             <label class="registration__label form__label" for="registration-password">Пароль<span class="form__input-required">*</span></label>
-            <div class="form__input-section <?php if (!empty($form_errors['password'])):?>form__input-section--error<?php endif; ?>">
+            <div class="form__input-section <?php (!empty($form_errors['password'])) ? 'form__input-section--error' : '' ?>">
               <input class="registration__input form__input" id="registration-password" type="password" name="password" placeholder="Придумайте пароль" value=<?= $form_values['password'] ?>>
               <button class="form__error-button button" type="button">!<span class="visually-hidden">Информация об ошибке</span></button>
               <div class="form__error-text">
@@ -98,7 +97,7 @@
           </div>
           <div class="registration__input-wrapper form__input-wrapper">
             <label class="registration__label form__label" for="registration-password-repeat">Повтор пароля<span class="form__input-required">*</span></label>
-            <div class="form__input-section <?php if (!empty($form_errors['password-repeat'])):?>form__input-section--error<?php endif; ?>">
+            <div class="form__input-section <?php (!empty($form_errors['password-repeat'])) ? 'form__input-section--error' : '' ?>">
               <input class="registration__input form__input" id="registration-password-repeat" type="password" name="password-repeat" placeholder="Повторите пароль" value=<?= $form_values['password-repeat'] ?>>
               <button class="form__error-button button" type="button">!<span class="visually-hidden">Информация об ошибке</span></button>
               <div class="form__error-text">
