@@ -40,8 +40,10 @@ function get_post_author($connection, $author_id)
     COALESCE(followers_count, 0) AS followers,
     COALESCE(posts_count, 0) AS posts
     FROM users
-    LEFT JOIN (SELECT author_id, COUNT(*) AS followers_count FROM subscribe GROUP BY author_id) followers ON followers.author_id = users.id
-    LEFT JOIN (SELECT author_id, COUNT(*) AS posts_count FROM posts GROUP BY author_id) author_posts ON author_posts.author_id = users.id
+    LEFT JOIN (SELECT author_id, COUNT(*) AS followers_count
+    FROM subscribe GROUP BY author_id) followers ON followers.author_id = users.id
+    LEFT JOIN (SELECT author_id, COUNT(*) AS posts_count
+    FROM posts GROUP BY author_id) author_posts ON author_posts.author_id = users.id
     WHERE users.id = ?";
     $author_mysqli = secure_query($connection, $select_post_author, $author_id);
     $author = mysqli_fetch_assoc($author_mysqli);
@@ -57,7 +59,8 @@ function get_post_author($connection, $author_id)
  */
 function get_post_comments($connection, $post_id)
 {
-    $select_post_comments = "SELECT comments.*, users.id AS author_id, users.username AS author_name, users.avatar FROM comments INNER JOIN users ON comments.user_id=users.id WHERE post_id = ? ORDER BY dt_add DESC;";
+    $select_post_comments = "SELECT comments.*, users.id AS author_id, users.username AS author_name, users.avatar
+    FROM comments INNER JOIN users ON comments.user_id=users.id WHERE post_id = ? ORDER BY dt_add DESC;";
     $comments_mysqli = secure_query($connection, $select_post_comments, $post_id);
     $comments = mysqli_fetch_all($comments_mysqli, MYSQLI_ASSOC);
     return $comments;
@@ -76,4 +79,3 @@ function increase_post_views($connection, $post_id)
     $views_mysqli = secure_query($connection, $update_post_view_count_query, $post_id);
     return $views_mysqli;
 }
-

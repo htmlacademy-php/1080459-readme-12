@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . '/lib/base.php');
 /** @var $connection */
 $add_user_query = "INSERT into users SET username = ?, email = ?, password = ?, avatar = ?, dt_add =?";
@@ -28,7 +29,8 @@ if (count($_POST) > 0) {
         $current_time = date('Y-m-d H:i:s');
         $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $avatar = save_image('userpic-file', $img_folder);
-        secure_query($connection, $add_user_query, $_POST['login'], $_POST['email'], $password_hash, $avatar, $current_time);
+        secure_query($connection, $add_user_query, $_POST['login'], $_POST['email'],
+        $password_hash, $avatar, $current_time);
         $post_id = mysqli_insert_id($connection);
         $URL = '/';
         header("Location: $URL");

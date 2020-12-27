@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . '/lib/base.php');
 /** @var $connection */
 require_once(__DIR__ . '/src/posts/search.php');
@@ -41,5 +42,3 @@ $layout_content = include_template(
     ]
 );
 print($layout_content);
-
-

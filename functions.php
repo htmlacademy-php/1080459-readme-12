@@ -1,12 +1,11 @@
 <?php
 
-
 /**
  * Обрезает текст до указанной длины и
  * добавляет в конце три точки
  *
- * @param  string $text Строка для обрезания
- * @param  int $truncate_length Длина строки
+ * @param  string $text            Строка для обрезания
+ * @param  int    $truncate_length Длина строки
  * @return string Обрезанная строка
  */
 function truncate_text(string $text, int $truncate_length = 300): string
@@ -61,18 +60,18 @@ function absolute_time_to_relative(string $time, string $last_word = 'назад
     $interval_in_minutes += $interval->h * 60;
     $interval_in_minutes += $interval->i;
     if ($interval_in_minutes < 60) {
-        $relative_time = $interval->i.' '.get_noun_plural_form($interval->i,'минута','минуты','минут').' '.$last_word;
+        $relative_time = $interval->i . ' ' . get_noun_plural_form($interval->i, 'минута', 'минуты', 'минут') . ' ' . $last_word;
     } elseif ($interval_in_minutes < 1440) {
-        $relative_time = $interval->h.' '.get_noun_plural_form($interval->h,'час','часа','часов').' '.$last_word;
+        $relative_time = $interval->h . ' ' . get_noun_plural_form($interval->h, 'час', 'часа', 'часов') . ' ' . $last_word;
     } elseif ($interval_in_minutes < 10080) {
-        $relative_time = $interval->d.' '.get_noun_plural_form($interval->d,'день','дня','дней').' '.$last_word;
+        $relative_time = $interval->d . ' ' . get_noun_plural_form($interval->d, 'день', 'дня', 'дней') . ' ' . $last_word;
     } elseif ($interval_in_minutes < 50400) {
         $weeks = floor($interval->d/7);
-        $relative_time = $weeks.' '.get_noun_plural_form($weeks,'неделя','недели','недель').' '.$last_word;
+        $relative_time = $weeks . ' ' . get_noun_plural_form($weeks,'неделя', 'недели', 'недель') . ' ' . $last_word;
     } elseif ($interval_in_minutes < 525600) {
-        $relative_time = $interval->m.' '.get_noun_plural_form($interval->m,'месяц','месяца','месяцев').' '.$last_word;
+        $relative_time = $interval->m . ' ' . get_noun_plural_form($interval->m, 'месяц', 'месяца', 'месяцев') . ' ' . $last_word;
     } else {
-        $relative_time = $interval->y.' '.get_noun_plural_form($interval->y,'год','года','лет').' '.$last_word;
+        $relative_time = $interval->y . ' ' . get_noun_plural_form($interval->y, 'год', 'года', 'лет') . ' ' . $last_word;
     }
     return $relative_time;
 }
@@ -85,7 +84,8 @@ function absolute_time_to_relative(string $time, string $last_word = 'назад
  * @param  mixed $params Типы параметров в формате 'i','s','d','b'
  * @return void Результат выполнения подготовленного запроса
  */
-function secure_query(mysqli $connection, string $sql, ...$params) {
+function secure_query(mysqli $connection, string $sql, ...$params)
+{
     foreach ($params as $param) {
         $param_types .= (gettype($param) == 'integer') ? 'i' : 's';
     }
@@ -102,7 +102,8 @@ function secure_query(mysqli $connection, string $sql, ...$params) {
  * @param  array $allowed Массив, в котором ищем
  * @return mixed Исходное значение, если найдено в массиве. Иначе - NULL
  */
-function white_list($value, array $allowed) {
+function white_list($value, array $allowed)
+{
     $key = array_search($value, $allowed, true);
     if ($key === false) {
         return null;
@@ -114,7 +115,8 @@ function white_list($value, array $allowed) {
  * Выводит страницу 404
  *
  */
-function display_404_page() {
+function display_404_page()
+{
     $page_content = include_template('404.php');
     $layout_content = include_template('layout.php',['content' => $page_content]);
     print($layout_content);
@@ -127,7 +129,8 @@ function display_404_page() {
  * @param  array $rules Массив с правилами валидации в формате строки с разделителями
  * @return array Преобразованный массив, каждое правило - отдельный элемент.
  */
-function getValidationRules(array $rules): array {
+function getValidationRules(array $rules): array
+{
     $result = [];
     foreach ($rules as $fieldName => $rule) {
         $result[$fieldName] = explode('|', $rule);
@@ -141,7 +144,8 @@ function getValidationRules(array $rules): array {
  * @param  string $name Название метода валидации
  * @return string Имя функции валидации без дефисов, подчеркиваний, с большой буквы, с приставкой 'validate'
  */
-function getValidationMethodName(string $name): string {
+function getValidationMethodName(string $name): string
+{
     $studlyWords = str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $name)));
     return "validate{$studlyWords}";
 }
@@ -152,7 +156,8 @@ function getValidationMethodName(string $name): string {
  * @param  string $rule
  * @return array Массив из названия и массива параметров
  */
-function getValidationNameAndParameters(string $rule): array {
+function getValidationNameAndParameters(string $rule): array
+{
     $nameParams = explode(':', $rule);
     $parameters = [];
     $name = $nameParams[0];
@@ -169,7 +174,8 @@ function getValidationNameAndParameters(string $rule): array {
  * @param  string $parameterName
  * @return string Ошибка или null
  */
-function validateFilled(array $inputArray, string $parameterName): ?string {
+function validateFilled(array $inputArray, string $parameterName): ?string
+{
     if (empty($inputArray[$parameterName])) {
         return 'Это поле должно быть заполнено';
     }
@@ -184,7 +190,8 @@ function validateFilled(array $inputArray, string $parameterName): ?string {
  * @param  int $length Длина
  * @return string Ошибка либо null
  */
-function validateLong(array $inputArray, string $parameterName, int $length): ?string {
+function validateLong(array $inputArray, string $parameterName, int $length): ?string
+{
     if (strlen(trim($inputArray[$parameterName])) < $length) {
         return 'Текст должен быть не короче '.$length.' символов';
     }
@@ -198,7 +205,8 @@ function validateLong(array $inputArray, string $parameterName, int $length): ?s
  * @param string $parameterName Имя поля, содержащего URL
  * @return string Ошибка либо Null
  */
-function validateCorrectURL(array $inputArray, string $parameterName): ?string {
+function validateCorrectURL(array $inputArray, string $parameterName): ?string
+{
     if (!filter_var($inputArray[$parameterName], FILTER_VALIDATE_URL)) {
         return 'Некорретный URL-адрес';
     }
@@ -212,7 +220,8 @@ function validateCorrectURL(array $inputArray, string $parameterName): ?string {
  * @param  array $parameterName
  * @return string Сообщение об ошибке, если нет ошибки - null
  */
-function validateRepeatPassword(array $inputArray, string $parameterName): ?string {
+function validateRepeatPassword(array $inputArray, string $parameterName): ?string
+{
     if ($inputArray['password'] !== $inputArray['password-repeat']) {
         return 'Пароли не совпадают';
     }
@@ -226,7 +235,8 @@ function validateRepeatPassword(array $inputArray, string $parameterName): ?stri
  * @param  string $parameterName
  * @return string Сообщение об ошибке, если нет ошибки - null
  */
-function validateCorrectEmail(array $inputArray, string $parameterName): ?string {
+function validateCorrectEmail(array $inputArray, string $parameterName): ?string
+{
     if (!filter_var($inputArray[$parameterName], FILTER_VALIDATE_EMAIL)) {
         return 'Некорретный email';
     }
@@ -243,7 +253,8 @@ function validateCorrectEmail(array $inputArray, string $parameterName): ?string
  * @param  mysqli $dbConnection
  * @return string Сообщение об ошибке, если нет ошибки - null
  */
-function validateExists(array $validationArray, string $parameterName, $tableName, $columnName, mysqli $dbConnection): ?string {
+function validateExists(array $validationArray, string $parameterName, $tableName, $columnName, mysqli $dbConnection): ?string
+{
     $sql = "select count(*) as amount from $tableName where $columnName = ?";
     $prepared_sql = mysqli_prepare($dbConnection, $sql);
     mysqli_stmt_bind_param($prepared_sql, 's', $validationArray[$parameterName]);
@@ -264,7 +275,8 @@ function validateExists(array $validationArray, string $parameterName, $tableNam
  * @param  mysqli $dbConnection
  * @return string Сообщение об ошибке, если нет ошибки - null
  */
-function validateNotexists(array $validationArray, string $parameterName, string $tableName, string $columnName, mysqli $dbConnection): ?string {
+function validateNotexists(array $validationArray, string $parameterName, string $tableName, string $columnName, mysqli $dbConnection): ?string
+{
     $sql = "select count(*) as amount from $tableName where $columnName = ?";
     $prepared_sql = mysqli_prepare($dbConnection, $sql);
     mysqli_stmt_bind_param($prepared_sql, 's', $validationArray[$parameterName]);
@@ -286,7 +298,8 @@ function validateNotexists(array $validationArray, string $parameterName, string
  * @param  mixed $dbConnection
  * @return string Ошибка либо null
  */
-function validateCorrectPassword(array $validationArray, string $parameterName, string $tableName, string $usersColumnName, string $passwordColumnName, mysqli $dbConnection): ?string {
+function validateCorrectPassword(array $validationArray, string $parameterName, string $tableName, string $usersColumnName, string $passwordColumnName, mysqli $dbConnection): ?string
+{
     $sql = "select password as dbpassword from $tableName where $usersColumnName = ?";
     $prepared_sql = mysqli_prepare($dbConnection, $sql);
     mysqli_stmt_bind_param($prepared_sql, 's', $validationArray['login']);
@@ -304,7 +317,8 @@ function validateCorrectPassword(array $validationArray, string $parameterName, 
  * @param  string $parameterName Имя поля, через которое загружен файл
  * @return string Ошибка либо null
  */
-function validateImgLoaded(array $inputArray, string $parameterName): ?string {
+function validateImgLoaded(array $inputArray, string $parameterName): ?string
+{
     if ($inputArray[$parameterName]['error'] != 0) {
         return 'Код ошибки:'.$inputArray[$parameterName]['error'];
     }
@@ -321,7 +335,8 @@ function validateImgLoaded(array $inputArray, string $parameterName): ?string {
  * @param  string $img_folder Папка, куда сохраняем
  * @return string
  */
-function save_image(string $img, string $img_folder): string {
+function save_image(string $img, string $img_folder): string
+{
     if ($_FILES[$img]['error'] != 0) {
         return $_FILES[$img]['error'];
     }
@@ -330,7 +345,6 @@ function save_image(string $img, string $img_folder): string {
     return $file_name;
 }
 
-
 /**
  * Проверяет наличие по ссылке изображения
  *
@@ -338,7 +352,8 @@ function save_image(string $img, string $img_folder): string {
  * @param  string $parameterName Имя поля, содержащего ссылку на изображение
  * @return string Ошибка либо null
  */
-function validateImageURLContent(array $inputArray, string $parameterName): ?string {
+function validateImageURLContent(array $inputArray, string $parameterName): ?string
+{
     if (!file_get_contents($inputArray[$parameterName])) {
         return 'По ссылке отсутствует изображение';
     }
@@ -350,7 +365,8 @@ function validateImageURLContent(array $inputArray, string $parameterName): ?str
  * @param string $youtube_url Ссылка на youtube видео
  * @return bool Доступна или недоступна ссылка
  */
-function validateYoutubeURL(array $inputArray, string $parameterName): ?string {
+function validateYoutubeURL(array $inputArray, string $parameterName): ?string
+{
     $res = false;
     $id = extract_youtube_id($inputArray[$parameterName]);
 
@@ -378,7 +394,8 @@ function validateYoutubeURL(array $inputArray, string $parameterName): ?string {
  * @param  array $validationArray Массив правил валидации вида поле - список правил валидации
  * @return array Список ошибок валидации
  */
-function validate(mysqli $db_connection, array $fields, array $validationArray): array {
+function validate(mysqli $db_connection, array $fields, array $validationArray): array
+{
     $db_functions = ['validateExists', 'validateNotexists', 'validateCorrectpassword'];
     $validations = getValidationRules($validationArray);
     $errors = [];
@@ -388,7 +405,7 @@ function validate(mysqli $db_connection, array $fields, array $validationArray):
             $methodName = getValidationMethodName($name);
             $methodParameters = array_merge([$fields, $field], $parameters);
             if (!function_exists($methodName)) {
-                return 'Функции валидации ' . $methodName. ' не существует';
+                return 'Функции валидации ' . $methodName . ' не существует';
             }
             if (in_array($methodName, $db_functions)) {
                 array_push($methodParameters, $db_connection);

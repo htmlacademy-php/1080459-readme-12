@@ -11,7 +11,7 @@
         <div class="search__results-wrapper">
             <div class="container">
                 <div class="search__content">
-                    <?php foreach($posts as $post): ?>
+                    <?php foreach ($posts as $post) : ?>
                         <article class="search__post post <?= $post['type_class'] ? 'post-'.$post['type_class'] : '' ?>">
                             <header class="post__header post__author">
                                 <a class="post__author-link" href="profile.php?id=<?= $post['author_id'] ?? '' ?>" title="Автор">
@@ -30,7 +30,7 @@
                             </header>
                             <h2><a href="post.php?id=<?= $post['id'] ?>"><?= $post['title'] ? htmlspecialchars($post['title']) : '' ?></a></h2>
                             <div class="post__main">
-                                <?php switch($post['type_class']): case 'quote': ?>
+                                <?php switch ($post['type_class']) : case 'quote': ?>
                                     <blockquote>
                                         <p><?= ($post['content']) ? htmlspecialchars($post['content']) : '' ?></p>
                                         <cite><?= $post['quote_author'] ? htmlspecialchars($post['quote_author']) : '' ?></cite>
@@ -85,7 +85,7 @@
                                             <span class="visually-hidden">Запустить проигрыватель</span>
                                         </button>
                                     </div>
-                                <?php endswitch ?>
+                                <?php endswitch; ?>
                             </div>
                             <footer class="post__footer post__indicators">
                                 <div class="post__buttons">
@@ -109,7 +109,7 @@
                                 </div>
                             </footer>
                         </article>
-                    <?php endforeach ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

@@ -35,9 +35,9 @@ function get_feed_posts($connection, $filter, $user_id)
     WHERE subscribe.follower_id = $user_id ";
 
     if ($filter) {
-        $select_posts_query.= "AND content_types.type_class = '$filter' ";
+        $select_posts_query .= "AND content_types.type_class = '$filter' ";
     }
-    $select_posts_query.= 'ORDER BY dt_add DESC';
+    $select_posts_query .= 'ORDER BY dt_add DESC';
 
     $tags_mysqli = mysqli_query($connection, $select_post_tags_query);
     $tags = mysqli_fetch_all($tags_mysqli, MYSQLI_ASSOC);
@@ -46,7 +46,7 @@ function get_feed_posts($connection, $filter, $user_id)
     $posts_ids = array_column($posts, 'id');
     foreach ($tags as $tag) {
         $key = array_search($tag['post_id'], $posts_ids);
-        if ($key !== FALSE) {
+        if ($key !== false) {
             $posts[$key]['tags'][$tag['hashtag_id']] = $tag['tag_name'];
         }
     }

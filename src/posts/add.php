@@ -7,7 +7,7 @@
  * @param  string $field_name Название поля
  * @return array
  */
-function ignoreField (array $form, string $field_name): array
+function ignoreField(array $form, string $field_name): array
 {
     unset($form['errors'][$field_name]);
     unset($form['values'][$field_name]);

@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . '/lib/base.php');
 require_once(__DIR__ . '/src/notification.php');
 /** @var $connection */
@@ -18,7 +19,7 @@ if (!isset($_GET['id'])) {
 }
 $author_id = $_GET['id'];
 if ($author_id == $user['id']) {
-    header("Location: profile.php?id=".$author_id);
+    header("Location: profile.php?id=" . $author_id);
     exit();
 }
 $subscribe_error = validate($connection, ['author_id' => $author_id], $validation_rules);

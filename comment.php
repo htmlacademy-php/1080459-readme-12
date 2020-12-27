@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Валидирует и сохраняет комментарии к посту
  *  */
@@ -30,5 +31,5 @@ if (empty($form['errors'])) {
 } else {
     $_SESSION['errors'] = $form['errors'];
 }
-$URL = '/post.php?id='.$post_id;
+$URL = '/post.php?id=' . $post_id;
 header("Location: $URL");

@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . '/lib/base.php');
 /** @var $connection */
 require_once(__DIR__ . '/src/posts/like.php');

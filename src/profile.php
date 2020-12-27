@@ -34,7 +34,8 @@ function get_owner_posts($connection, $owner_id)
     FROM post_tags
     INNER JOIN hashtags ON post_tags.hashtag_id = hashtags.id';
     $select_user_posts_query =
-    "SELECT posts.*, content_types.type_class, users.id AS user_id, users.username, users.avatar, original_author_avatar, original_author_username,
+    "SELECT posts.*, content_types.type_class, users.id AS user_id, users.username, users.avatar,
+    original_author_avatar, original_author_username,
     COALESCE(like_count, 0) AS likes,
     COALESCE(comment_count, 0) AS comments,
     COALESCE(repost_count, 0) AS reposts,
@@ -50,7 +51,8 @@ function get_owner_posts($connection, $owner_id)
     GROUP BY post_id) comment_counts ON comment_counts.post_id = posts.id
     LEFT JOIN (SELECT original_post_id, COUNT(*) AS repost_count FROM posts
     GROUP BY original_post_id) repost_counts ON repost_counts.original_post_id = posts.original_post_id
-	LEFT JOIN (SELECT users.id, users.avatar AS original_author_avatar, users.username AS original_author_username FROM users) original_author ON posts.original_author_id = original_author.id
+    LEFT JOIN (SELECT users.id, users.avatar AS original_author_avatar, users.username AS original_author_username
+    FROM users) original_author ON posts.original_author_id = original_author.id
     WHERE users.id = ?
     ORDER BY dt_add DESC";
     $tags_mysqli = mysqli_query($connection, $select_post_tags_query);
@@ -110,5 +112,3 @@ function get_owner_subscribes($connection, $user_id, $owner_id)
     $subscribes = mysqli_fetch_all($subscribes_mysqli, MYSQLI_ASSOC);
     return $subscribes;
 }
-
-

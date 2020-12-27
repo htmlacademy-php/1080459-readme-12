@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . '/lib/base.php');
 /** @var $connection */
 
@@ -33,4 +34,3 @@ $page_content = include_template(
     ]
 );
 print($page_content);
-

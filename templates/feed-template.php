@@ -7,7 +7,7 @@
             <h2 class="visually-hidden">Лента</h2>
             <div class="feed__main-wrapper">
                 <div class="feed__wrapper">
-                    <?php foreach($posts as $post): ?>
+                    <?php foreach ($posts as $post): ?>
                     <article class="feed__post post post-<?=$post['type_class'];?>">
                         <header class="post__header post__author">
                             <a class="post__author-link" href="profile.php?id=<?= $post['author_id'] ?? ''; ?>" title="Автор">
@@ -143,7 +143,7 @@
                     <span>Все</span>
                     </a>
                 </li>
-                <?php foreach($content_types as $content_type): ?>
+                <?php foreach ($content_types as $content_type): ?>
                     <li class="feed__filters-item filters__item">
                         <a class="button filters__button filters__button--<?=$content_type['type_class'];?> <?= ($filter == $content_type['type_class']) ? 'filters__button--active' : ''?>" href="feed.php?filter=<?=$content_type['type_class'];?>">
                             <span class="visually-hidden"><?=$content_type['type_name'];?></span>

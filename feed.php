@@ -1,6 +1,6 @@
 <?php
+
 require_once(__DIR__ . '/lib/base.php');
-/** @var $connection */
 require_once(__DIR__ . '/src/feed.php');
 
 $user = get_user();
@@ -34,4 +34,3 @@ $layout_content = include_template(
     ]
 );
 print($layout_content);
-

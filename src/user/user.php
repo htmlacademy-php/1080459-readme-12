@@ -40,7 +40,8 @@ function get_user_subscribed($connection, $user_id, $author_id): bool
  * @param  mixed $follower_id
  * @param  mixed $author_id
  */
-function user_subscribe ($connection, $follower_id, $author_id) {
+function user_subscribe($connection, $follower_id, $author_id)
+{
     $add_subscribe_query = "INSERT INTO subscribe SET follower_id = ?, author_id = ?";
     $remove_subscribe_query = "DELETE FROM subscribe WHERE follower_id = ? AND author_id = ?";
     secure_query($connection, $add_subscribe_query, $follower_id, $author_id);
@@ -53,7 +54,8 @@ function user_subscribe ($connection, $follower_id, $author_id) {
  * @param  mixed $follower_id
  * @param  mixed $author_id
  */
-function user_unsubscribe ($connection, $follower_id, $author_id) {
+function user_unsubscribe($connection, $follower_id, $author_id)
+{
     $remove_subscribe_query = "DELETE FROM subscribe WHERE follower_id = ? AND author_id = ?";
     secure_query($connection, $remove_subscribe_query, $follower_id, $author_id);
 }
@@ -65,7 +67,8 @@ function user_unsubscribe ($connection, $follower_id, $author_id) {
  * @param  mixed $login
  * @return void
  */
-function get_user_by_name($connection, $login) {
+function get_user_by_name($connection, $login)
+{
     $select_user_query = "SELECT users.id, users.username, users.avatar FROM users WHERE users.username = ?";
     $user_mysqli = secure_query($connection, $select_user_query, $login);
     $user = mysqli_fetch_assoc($user_mysqli);
@@ -79,7 +82,8 @@ function get_user_by_name($connection, $login) {
  * @param  mixed $user_id
  * @return void
  */
-function get_user_by_id($connection, $user_id) {
+function get_user_by_id($connection, $user_id)
+{
     $select_user_query = "SELECT users.id, users.username, users.avatar, users.email FROM users WHERE users.id = ?";
     $user_mysqli = secure_query($connection, $select_user_query, $user_id);
     $user = mysqli_fetch_assoc($user_mysqli);

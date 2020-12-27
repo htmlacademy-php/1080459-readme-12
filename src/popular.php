@@ -14,7 +14,7 @@ function get_total_posts($connection, $filter)
     FROM posts
     INNER JOIN content_types ON posts.post_type=content_types.id ';
     if ($filter !== null) {
-        $count_posts_query.= "WHERE content_types.type_class = '$filter' ";
+        $count_posts_query .= "WHERE content_types.type_class = '$filter' ";
     }
     $total_posts_mysqli = mysqli_query($connection, $count_posts_query);
     $total_posts = mysqli_fetch_row($total_posts_mysqli)[0];
@@ -47,9 +47,9 @@ function get_popular_posts($connection, $filter, $sort, $page_limit, $page_offse
     FROM comments
     GROUP BY post_id) comment_counts ON comment_counts.post_id = posts.id ';
     if ($filter !== null) {
-        $select_posts_query.= "WHERE content_types.type_class = '$filter' ";
+        $select_posts_query .= "WHERE content_types.type_class = '$filter' ";
     }
-    $select_posts_query.= "ORDER BY $sort DESC LIMIT ? OFFSET ?;";
+    $select_posts_query .= "ORDER BY $sort DESC LIMIT ? OFFSET ?;";
     $posts_mysqli = secure_query($connection, $select_posts_query, $page_limit, $page_offset);
     $posts = mysqli_fetch_all($posts_mysqli, MYSQLI_ASSOC);
     return $posts;

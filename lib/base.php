@@ -19,4 +19,3 @@ $connection = db_connect(
     $settings['mysql']['password'],
     $settings['mysql']['database']
 );
-
