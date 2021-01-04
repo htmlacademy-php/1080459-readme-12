@@ -13,11 +13,11 @@ if ($user === null) {
     header("Location: index.php");
     exit();
 }
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     display_404_page();
     exit();
 }
-$author_id = $_GET['id'];
+$author_id = (int)$_GET['id'];
 if ($author_id == $user['id']) {
     header("Location: profile.php?id=" . $author_id);
     exit();

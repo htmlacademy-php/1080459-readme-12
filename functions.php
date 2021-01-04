@@ -28,7 +28,7 @@ function truncate_text(string $text, int $truncate_length = 300): string
 
 /**
  * Загружает из БД виды контента
- * @param mysqli $connection
+ * @param  mysqli $connection
  * @return array Виды контента
  */
 function get_content_types($connection)
@@ -60,29 +60,34 @@ function absolute_time_to_relative(string $time, string $last_word = 'назад
     $interval_in_minutes += $interval->h * 60;
     $interval_in_minutes += $interval->i;
     if ($interval_in_minutes < 60) {
-        $relative_time = $interval->i . ' ' . get_noun_plural_form($interval->i, 'минута', 'минуты', 'минут') . ' ' . $last_word;
+        $relative_time = $interval->i . ' ' . get_noun_plural_form($interval->i, 'минута', 'минуты', 'минут') .
+        ' ' . $last_word;
     } elseif ($interval_in_minutes < 1440) {
-        $relative_time = $interval->h . ' ' . get_noun_plural_form($interval->h, 'час', 'часа', 'часов') . ' ' . $last_word;
+        $relative_time = $interval->h . ' ' . get_noun_plural_form($interval->h, 'час', 'часа', 'часов') .
+         ' ' . $last_word;
     } elseif ($interval_in_minutes < 10080) {
-        $relative_time = $interval->d . ' ' . get_noun_plural_form($interval->d, 'день', 'дня', 'дней') . ' ' . $last_word;
+        $relative_time = $interval->d . ' ' . get_noun_plural_form($interval->d, 'день', 'дня', 'дней') .
+         ' ' . $last_word;
     } elseif ($interval_in_minutes < 50400) {
-        $weeks = floor($interval->d/7);
-        $relative_time = $weeks . ' ' . get_noun_plural_form($weeks,'неделя', 'недели', 'недель') . ' ' . $last_word;
+        $weeks = floor($interval->d / 7);
+        $relative_time = $weeks . ' ' . get_noun_plural_form($weeks, 'неделя', 'недели', 'недель') . ' ' . $last_word;
     } elseif ($interval_in_minutes < 525600) {
-        $relative_time = $interval->m . ' ' . get_noun_plural_form($interval->m, 'месяц', 'месяца', 'месяцев') . ' ' . $last_word;
+        $relative_time = $interval->m . ' ' . get_noun_plural_form($interval->m, 'месяц', 'месяца', 'месяцев') .
+        ' ' . $last_word;
     } else {
-        $relative_time = $interval->y . ' ' . get_noun_plural_form($interval->y, 'год', 'года', 'лет') . ' ' . $last_word;
+        $relative_time = $interval->y . ' ' . get_noun_plural_form($interval->y, 'год', 'года', 'лет') .
+        ' ' . $last_word;
     }
     return $relative_time;
 }
 
 /**
- * Подготовка и выполнения безопасного запроса
+ * Подготовка и выполнение безопасного запроса
  *
  * @param  mysqli $connection
- * @param  string $sql Исходный запрос со знакоми ? в месте подстановки параметров
- * @param  mixed $params Типы параметров в формате 'i','s','d','b'
- * @return void Результат выполнения подготовленного запроса
+ * @param  string $sql        Исходный запрос со знаками ? в месте подстановки параметров
+ * @param  mixed  $params Типы параметров в формате 'i','s','d','b'
+ * @return void   Результат выполнения подготовленного запроса
  */
 function secure_query(mysqli $connection, string $sql, ...$params)
 {
@@ -96,11 +101,33 @@ function secure_query(mysqli $connection, string $sql, ...$params)
 }
 
 /**
+ * Подготовка и выполнение безопасного запроса с bind результата
+ *
+ * @param  mysqli $connection
+ * @param  string $sql Исходный запрос со знаками ? в месте подстановки параметров
+ * @param  mixed $params Типы параметров в формате 'i','s','d','b'
+ * @return void Результат выполнения подготовленного запроса
+ */
+function secure_query_bind_result(mysqli $connection, string $sql, ...$params)
+{
+    foreach ($params as $param) {
+        $param_types .= (gettype($param) == 'integer') ? 'i' : 's';
+    }
+    $prepared_sql = mysqli_prepare($connection, $sql);
+    mysqli_stmt_bind_param($prepared_sql, $param_types, ...$params);
+    mysqli_stmt_execute($prepared_sql);
+    mysqli_stmt_bind_result($prepared_sql, $bind);
+    mysqli_stmt_fetch($prepared_sql);
+    mysqli_stmt_close($prepared_sql);
+    return $bind;
+}
+
+/**
  * Возвращает значение, если оно содержится в массиве, иначе возвращает null
  *
  * @param  mixed $value Искомое значение
  * @param  array $allowed Массив, в котором ищем
- * @return mixed Исходное значение, если найдено в массиве. Иначе - NULL
+ * @return mixed Исходное значение, если найдено в массиве. Иначе - null
  */
 function white_list($value, array $allowed)
 {
@@ -118,7 +145,7 @@ function white_list($value, array $allowed)
 function display_404_page()
 {
     $page_content = include_template('404.php');
-    $layout_content = include_template('layout.php',['content' => $page_content]);
+    $layout_content = include_template('layout.php', ['content' => $page_content]);
     print($layout_content);
     http_response_code(404);
 }
@@ -193,7 +220,7 @@ function validateFilled(array $inputArray, string $parameterName): ?string
 function validateLong(array $inputArray, string $parameterName, int $length): ?string
 {
     if (strlen(trim($inputArray[$parameterName])) < $length) {
-        return 'Текст должен быть не короче '.$length.' символов';
+        return 'Текст должен быть не короче ' . $length . ' символов';
     }
     return null;
 }
@@ -253,17 +280,18 @@ function validateCorrectEmail(array $inputArray, string $parameterName): ?string
  * @param  mysqli $dbConnection
  * @return string Сообщение об ошибке, если нет ошибки - null
  */
-function validateExists(array $validationArray, string $parameterName, $tableName, $columnName, mysqli $dbConnection): ?string
-{
+function validateExists(
+    array $validationArray,
+    string $parameterName,
+    $tableName,
+    $columnName,
+    mysqli $dbConnection
+): ?string {
     $sql = "select count(*) as amount from $tableName where $columnName = ?";
-    $prepared_sql = mysqli_prepare($dbConnection, $sql);
-    mysqli_stmt_bind_param($prepared_sql, 's', $validationArray[$parameterName]);
-    mysqli_stmt_execute($prepared_sql);
-    mysqli_stmt_bind_result($prepared_sql, $amount);
-    mysqli_stmt_fetch($prepared_sql);
-    mysqli_stmt_close($prepared_sql);
+    $amount = secure_query_bind_result($dbConnection, $sql, $validationArray[$parameterName]);
     return $amount > 0 ? "Запись с таким $parameterName уже присутствует в базе данных" : null;
 }
+
 
 /**
  * Проверяет наличия значения в БД
@@ -275,16 +303,16 @@ function validateExists(array $validationArray, string $parameterName, $tableNam
  * @param  mysqli $dbConnection
  * @return string Сообщение об ошибке, если нет ошибки - null
  */
-function validateNotexists(array $validationArray, string $parameterName, string $tableName, string $columnName, mysqli $dbConnection): ?string
-{
+function validateNotexists(
+    array $validationArray,
+    string $parameterName,
+    string $tableName,
+    string $columnName,
+    mysqli $dbConnection
+): ?string {
     $sql = "select count(*) as amount from $tableName where $columnName = ?";
-    $prepared_sql = mysqli_prepare($dbConnection, $sql);
-    mysqli_stmt_bind_param($prepared_sql, 's', $validationArray[$parameterName]);
-    mysqli_stmt_execute($prepared_sql);
-    mysqli_stmt_bind_result($prepared_sql, $amount);
-    mysqli_stmt_fetch($prepared_sql);
-    mysqli_stmt_close($prepared_sql);
-    return $amount == 0 ? "Записи с таким $parameterName нет в базе данных" : null;
+    $amount = secure_query_bind_result($dbConnection, $sql, $validationArray[$parameterName]);
+    return $amount === 0 ? "Записи с таким $parameterName нет в базе данных" : null;
 }
 
 /**
@@ -298,15 +326,16 @@ function validateNotexists(array $validationArray, string $parameterName, string
  * @param  mixed $dbConnection
  * @return string Ошибка либо null
  */
-function validateCorrectPassword(array $validationArray, string $parameterName, string $tableName, string $usersColumnName, string $passwordColumnName, mysqli $dbConnection): ?string
-{
+function validateCorrectPassword(
+    array $validationArray,
+    string $parameterName,
+    string $tableName,
+    string $usersColumnName,
+    string $passwordColumnName,
+    mysqli $dbConnection
+): ?string {
     $sql = "select password as dbpassword from $tableName where $usersColumnName = ?";
-    $prepared_sql = mysqli_prepare($dbConnection, $sql);
-    mysqli_stmt_bind_param($prepared_sql, 's', $validationArray['login']);
-    mysqli_stmt_execute($prepared_sql);
-    mysqli_stmt_bind_result($prepared_sql, $dbpassword);
-    mysqli_stmt_fetch($prepared_sql);
-    mysqli_stmt_close($prepared_sql);
+    $dbpassword = secure_query_bind_result($dbConnection, $sql, $validationArray[$parameterName]);
     return !password_verify($validationArray[$parameterName], $dbpassword) ? "Вы ввели неверный email/пароль" : null;
 }
 
@@ -319,8 +348,8 @@ function validateCorrectPassword(array $validationArray, string $parameterName, 
  */
 function validateImgLoaded(array $inputArray, string $parameterName): ?string
 {
-    if ($inputArray[$parameterName]['error'] != 0) {
-        return 'Код ошибки:'.$inputArray[$parameterName]['error'];
+    if ($inputArray[$parameterName]['error'] !== 0) {
+        return 'Код ошибки:' . $inputArray[$parameterName]['error'];
     }
     $file_info = finfo_open(FILEINFO_MIME_TYPE);
     $file_name = $inputArray[$parameterName]['tmp_name'];
@@ -335,10 +364,10 @@ function validateImgLoaded(array $inputArray, string $parameterName): ?string
  * @param  string $img_folder Папка, куда сохраняем
  * @return string
  */
-function save_image(string $img, string $img_folder): string
+function save_image(string $img, string $img_folder): ?string
 {
-    if ($_FILES[$img]['error'] != 0) {
-        return $_FILES[$img]['error'];
+    if ($_FILES[$img]['error'] !== 0) {
+        return null;
     }
     $file_name = $_FILES[$img]['name'];
     move_uploaded_file($_FILES[$img]['tmp_name'], $img_folder . $file_name);
@@ -377,7 +406,6 @@ function validateYoutubeURL(array $inputArray, string $parameterName): ?string
         $resp = file_get_contents($url);
 
         if ($resp && $json = json_decode($resp, true)) {
-            // $res = null;
             $res = $json['pageInfo']['totalResults'] > 0 && $json['items'][0]['status']['privacyStatus'] == 'public';
         } else {
             $res = 'Видео по ссылке не найдено';

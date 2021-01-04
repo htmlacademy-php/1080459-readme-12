@@ -7,10 +7,17 @@ $form_error_codes = [
     'login' => 'Логин',
     'password' => 'Пароль',
 ];
+
 $validation_rules = [
     'login' => 'filled',
     'password' => 'filled|correctpassword:users,username,password'
 ];
+
+$form = [
+    'values' => [],
+    'errors' => [],
+];
+
 if (count($_POST) > 0) {
     $form['values'] = $_POST;
     $form['errors'] = validate($connection, $form['values'], $validation_rules);
@@ -28,8 +35,8 @@ if (count($_POST) > 0) {
 $page_content = include_template(
     'anonym.php',
     [
-        'form_values' => $form['values'],
-        'form_errors' => $form['errors'],
+        'form_values' => $form['values'] ?? [],
+        'form_errors' => $form['errors'] ?? [],
         'form_error_codes' => $form_error_codes
     ]
 );

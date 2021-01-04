@@ -62,7 +62,7 @@ function get_owner_posts($connection, $owner_id)
     $posts_ids = array_column($posts, 'id');
     foreach ($tags as $tag) {
         $index = array_search($tag['post_id'], $posts_ids);
-        if ($index !== FALSE) {
+        if ($index !== false) {
             $posts[$index]['tags'][$tag['hashtag_id']] = $tag['tag_name'];
         }
     }
@@ -78,7 +78,8 @@ function get_owner_posts($connection, $owner_id)
  */
 function get_owner_likes($connection, $owner_id)
 {
-    $select_owner_likes = "SELECT likes.user_id, likes.post_id, posts.title, posts.content, users.id AS user_id, users.username, users.avatar,content_types.type_class
+    $select_owner_likes = "SELECT likes.user_id, likes.post_id, posts.title, posts.content, users.id
+    AS user_id, users.username, users.avatar,content_types.type_class
     FROM likes
     INNER JOIN posts ON posts.id = likes.post_id AND posts.author_id = ?
     INNER JOIN content_types ON posts.post_type=content_types.id
@@ -106,7 +107,8 @@ function get_owner_subscribes($connection, $user_id, $owner_id)
     LEFT JOIN (SELECT author_id, COUNT(*) AS post_count
     FROM posts
     GROUP BY author_id) post_counts ON post_counts.author_id = users.id
-    LEFT JOIN (SELECT author_id, follower_id AS user_subscribe FROM subscribe WHERE follower_id = ?) user_subscribed ON user_subscribed.author_id = users.id
+    LEFT JOIN (SELECT author_id, follower_id AS user_subscribe FROM subscribe WHERE follower_id = ?) user_subscribed
+    ON user_subscribed.author_id = users.id
     WHERE subscribe.follower_id = ?";
     $subscribes_mysqli = secure_query($connection, $select_owner_subscribes, $user_id, $owner_id);
     $subscribes = mysqli_fetch_all($subscribes_mysqli, MYSQLI_ASSOC);

@@ -17,14 +17,14 @@ if ($user === null) {
 $title = $settings['site_name'] . ' | Сообщения';
 $add_post_button = true;
 
-if (count($_POST) > 0 && isset($_POST['receiver-id']) && ($_POST['receiver-id'] != $user['id'])) {
-    $receiver_id = $_POST['receiver-id'];
+if (count($_POST) > 0 && isset($_POST['receiver-id']) && ($_POST['receiver-id'] !== $user['id'])) {
+    $receiver_id = (int)$_POST['receiver-id'];
     $form['values'] = $_POST;
     $form['errors'] = validate($connection, $form['values'], $validation_rules);
     $form['errors'] = array_filter($form['errors']);
     if (empty($form['errors'])) {
         $message = add_message($connection, $user['id'], $receiver_id, $_POST['message']);
-        header("Location: ".$_SERVER['PHP_SELF']);
+        header("Location: " . $_SERVER['PHP_SELF']);
     } else {
         $errors = $form['errors'];
     }
@@ -32,7 +32,7 @@ if (count($_POST) > 0 && isset($_POST['receiver-id']) && ($_POST['receiver-id'] 
 
 $dialogs = get_dialogs($connection, $user['id']);
 if (($dialogs !== null) || ($GET['id'] !== null)) {
-    $active_dialog_id = $_GET['id'] ?? array_key_first($dialogs);
+    $active_dialog_id = (int)($_GET['id'] ?? array_key_first($dialogs));
 }
 
 $messages = get_messages($connection, $user['id']);

@@ -11,3 +11,7 @@ vendor
 uploads/*
 img/*
 !uploads/.gitkeep
+*.conf
+Dockerfile
+docker-compose.yml
+test.php

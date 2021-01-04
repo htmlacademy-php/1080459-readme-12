@@ -11,7 +11,7 @@ if ($user === null) {
 }
 $title = $settings['site_name'] . ' | Профиль';
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'posts';
-$owner_id = isset($_GET['id']) ? $_GET['id'] : $user['id'];
+$owner_id = isset($_GET['id']) ? (int)$_GET['id'] : $user['id'];
 $owner = get_owner($connection, $owner_id);
 $user['subscribed'] = get_user_subscribed($connection, $user['id'], $owner_id);
 $posts = get_owner_posts($connection, $owner_id);

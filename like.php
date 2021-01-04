@@ -13,11 +13,11 @@ if ($user === null) {
     header("Location: index.php");
     exit();
 }
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     display_404_page();
     exit();
 }
-$post_id = $_GET['id'];
+$post_id = (int)$_GET['id'];
 $like_error = validate($connection, ['post-id' => $post_id], $validation_rules);
 $like_error = array_filter($like_error);
 if (empty($like_error)) {

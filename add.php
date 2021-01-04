@@ -81,11 +81,18 @@ if (count($_POST) > 0 && isset($_POST['form-type'])) {
 
     $form['errors'] = array_filter($form['errors']);
     if (empty($form['errors'])) {
-        $file_url = ($form_type === 'photo') ? upload_file($form, $img_folder) : null;
+        $file_url = ($form_type == 'photo') ? upload_file($form, $img_folder) : null;
         $post_id = save_post($connection, $form['values'], $post_types, $user, $file_url);
         add_tags($_POST['tags'], $post_id, $connection);
         $followers = get_user_followers($connection, $user['id']);
-        new_post_notification($followers, $settings['smtp'], $user, $form['values']['heading'], $post_id, $settings['site_url']);
+        new_post_notification(
+            $followers,
+            $settings['smtp'],
+            $user,
+            $form['values']['heading'],
+            $post_id,
+            $settings['site_url']
+        );
         $URL = '/post.php?id=' . $post_id;
         header("Location: $URL");
     }
@@ -95,8 +102,8 @@ $page_content = include_template(
     'add-template.php',
     [
         'content_types' => $content_types,
-        'form_values' => $form['values'],
-        'form_errors' => $form['errors'],
+        'form_values' => $form['values'] ?? [],
+        'form_errors' => $form['errors'] ?? [],
         'field_error_codes' => $field_error_codes,
         'form_type' => $form_type,
     ]

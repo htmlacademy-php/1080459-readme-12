@@ -47,17 +47,17 @@ function save_post(mysqli $connection, array $post, array $post_types, array $us
         $current_time
     ];
 
-    if ($post_type === 'quote') {
+    if ($post_type == 'quote') {
         array_push($fields, 'quote_author');
         array_push($parameters, $post['quote-author']);
     }
 
-    if ($post_type === 'video') {
+    if ($post_type == 'video') {
         array_push($fields, 'youtube_url');
         array_push($parameters, $post['youtube_url']);
     }
 
-    if ($post_type === 'photo') {
+    if ($post_type == 'photo') {
         array_push($fields, 'img_url');
         array_push($parameters, $file_url);
     }

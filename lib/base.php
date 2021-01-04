@@ -3,6 +3,7 @@
 /**
  * Этот файл предназначен для включения в те, где нам нужно что-бы то не было.
  */
+
 require_once('vendor/autoload.php');
 require_once(__DIR__ . '/../db.php');
 require_once(__DIR__ . '/../functions.php');
