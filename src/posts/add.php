@@ -54,7 +54,7 @@ function save_post(mysqli $connection, array $post, array $post_types, array $us
 
     if ($post_type == 'video') {
         array_push($fields, 'youtube_url');
-        array_push($parameters, $post['youtube_url']);
+        array_push($parameters, $post['video-url']);
     }
 
     if ($post_type == 'photo') {
@@ -84,8 +84,8 @@ function save_post(mysqli $connection, array $post, array $post_types, array $us
  */
 function add_tags(string $new_tags, $post_id, $connection)
 {
-    $new_tags = array_unique(explode(' ', $new_tags));
     $new_tags = htmlspecialchars($new_tags);
+    $new_tags = array_unique(explode(' ', $new_tags));
     $select_tags_query = "SELECT * FROM hashtags WHERE tag_name in ('" . implode("','", $new_tags) . "')";
     $tags_mysqli = mysqli_query($connection, $select_tags_query);
     $tags = mysqli_fetch_all($tags_mysqli, MYSQLI_ASSOC);

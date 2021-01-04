@@ -11,7 +11,8 @@ function get_post($connection, $post_id)
 {
     $select_post_by_id = "SELECT posts.*, users.username, users.avatar, content_types.type_class,
     COALESCE(like_count, 0) AS likes,
-    COALESCE(comment_count, 0) AS comments
+    COALESCE(comment_count, 0) AS comments,
+    COALESCE(repost_count, 0) AS reposts
     FROM posts
     INNER JOIN users ON posts.author_id=users.id
     INNER JOIN content_types ON posts.post_type=content_types.id
@@ -21,6 +22,8 @@ function get_post($connection, $post_id)
     LEFT JOIN (SELECT post_id, COUNT(*) AS comment_count
     FROM comments
     GROUP BY post_id) comment_counts ON comment_counts.post_id = posts.id
+    LEFT JOIN (SELECT original_post_id, COUNT(*) AS repost_count FROM posts
+    GROUP BY original_post_id) repost_counts ON repost_counts.original_post_id = posts.original_post_id
     WHERE posts.id = ?;";
     $post_mysqli = secure_query($connection, $select_post_by_id, $post_id);
     $post = mysqli_fetch_assoc($post_mysqli);

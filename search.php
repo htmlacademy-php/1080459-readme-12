@@ -10,28 +10,35 @@ if ($user === null) {
     exit();
 }
 
-if (count($_GET) > 0) {
-    $keywords = trim($_GET['keywords']);
-    if ($keywords == '') {
-        $page_content = include_template('no-results.php');
-        print($page_content);
-        exit();
-    }
-    $search_results = search_posts($connection, $keywords);
-    if (count($search_results) == 0) {
-        $page_content = include_template('no-results.php', ['keywords' => $keywords]);
-        print($page_content);
-        exit();
-    }
-}
 $add_post_button = true;
-$page_content = include_template(
-    'search-template.php',
-    [
-        'keywords' => $keywords,
-        'posts' => $search_results
-    ]
-);
+if (!isset($_GET['keywords'])) {
+    display_404_page();
+    exit();
+}
+$keywords = trim($_GET['keywords']);
+if ($keywords == '') {
+    display_404_page();
+    exit();
+}
+$search_results = search_posts($connection, $keywords);
+if (count($search_results) == 0) {
+    $page_content = include_template(
+        'no-results.php',
+        [
+            'keywords' => $keywords
+            ]
+    );
+} else {
+    $page_content = include_template(
+        'search-template.php',
+        [
+            'keywords' => $keywords,
+            'posts' => $search_results
+        ]
+    );
+}
+
+
 $layout_content = include_template(
     'layout.php',
     [

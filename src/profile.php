@@ -50,7 +50,8 @@ function get_owner_posts($connection, $owner_id)
     FROM comments
     GROUP BY post_id) comment_counts ON comment_counts.post_id = posts.id
     LEFT JOIN (SELECT original_post_id, COUNT(*) AS repost_count FROM posts
-    GROUP BY original_post_id) repost_counts ON repost_counts.original_post_id = posts.original_post_id
+    GROUP BY original_post_id) repost_counts
+    ON repost_counts.original_post_id = posts.original_post_id
     LEFT JOIN (SELECT users.id, users.avatar AS original_author_avatar, users.username AS original_author_username
     FROM users) original_author ON posts.original_author_id = original_author.id
     WHERE users.id = ?
@@ -78,7 +79,8 @@ function get_owner_posts($connection, $owner_id)
  */
 function get_owner_likes($connection, $owner_id)
 {
-    $select_owner_likes = "SELECT likes.user_id, likes.post_id, posts.title, posts.content, users.id
+    $select_owner_likes =
+    "SELECT likes.user_id, likes.post_id, posts.title, posts.content, posts.youtube_url, posts.img_url, users.id
     AS user_id, users.username, users.avatar,content_types.type_class
     FROM likes
     INNER JOIN posts ON posts.id = likes.post_id AND posts.author_id = ?

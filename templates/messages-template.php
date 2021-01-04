@@ -11,7 +11,9 @@
             <?= ($active_dialog_id == $dialog_id) ? 'messages__contacts-tab--active tabs__item--active' : '' ?>
             tabs__item " href="messages.php?id=<?= $dialog_id ?>">
               <div class="messages__avatar-wrapper">
+              <?php if (isset($dialog['avatar'])) : ?>
                 <img class="messages__avatar" src="img/<?= $dialog['avatar']?>" alt="Аватар пользователя">
+              <?php endif; ?>
               </div>
               <div class="messages__info">
                 <span class="messages__contact-name">
@@ -21,9 +23,11 @@
                   <p class="messages__preview-text">
                   <?= $dialog['content'] ?? '' ?>
                   </p>
-                  <time class="messages__preview-time" datetime="<?= $dialog['last_message'] ?>">
-                  <?= absolute_time_to_relative($dialog['last_message'], 'назад') ?>
-                  </time>
+                  <?php if (isset($dialog['last_message'])) : ?>
+                    <time class="messages__preview-time" datetime="<?= $dialog['last_message'] ?>">
+                        <?= absolute_time_to_relative($dialog['last_message'], 'назад') ?>
+                    </time>
+                  <?php endif; ?>
                 </div>
               </div>
             </a>
@@ -41,22 +45,27 @@
                   <div class="messages__info-wrapper">
                   <div class="messages__item-avatar">
                       <a class="messages__author-link" href="#">
+                      <?php $first_sender = ($user['id'] == $message['sender_id']) ? $user : $dialog; ?>
+                      <?php if (isset($first_sender['avatar'])) : ?>
                       <img class="messages__avatar"
                       src="img/<?= ($user['id'] == $message['sender_id']) ? $user['avatar'] : $dialog['avatar']?>"
                       alt="Аватар пользователя">
+                      <?php endif; ?>
                       </a>
                   </div>
                   <div class="messages__item-info">
                       <a class="messages__author" href="#">
                       <?= ($user['id'] == $message['sender_id']) ? $user['name'] : $dialog['username']?>
                       </a>
-                      <time class="messages__time" datetime="<?= $message['dt_add']?>">
-                      <?= absolute_time_to_relative($message['dt_add'], 'назад'); ?>
-                      </time>
+                      <?php if (isset($dialog['last_message'])) : ?>
+                        <time class="messages__time" datetime="<?= $message['dt_add'] ?>">
+                                <?= absolute_time_to_relative($message['dt_add'], 'назад'); ?>
+                        </time>
+                      <?php endif; ?>
                   </div>
                   </div>
                   <p class="messages__text">
-                    <?= $message['content']?>
+                    <?= $message['content'] ?? '' ?>
                   </p>
               </li>
             <?php endforeach; ?>
@@ -66,7 +75,9 @@
           <form class="comments__form form" action="#" method="post">
             <input type="hidden" name="receiver-id" value="<?= $active_dialog_id ?>">
               <div class="comments__my-avatar">
+              <?php if (isset($user['avatar'])) : ?>
                 <img class="comments__picture" src="img/<?= $user['avatar'] ?>" alt="Аватар пользователя">
+              <?php endif; ?>
               </div>
               <div class="form__input-section <?= !empty($message_errors) ? 'form__input-section--error' : '' ?>">
                 <textarea class="comments__textarea form__textarea form__input" name="message"

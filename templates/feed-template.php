@@ -85,7 +85,6 @@
                         <div class="post-video__block">
                           <div class="post-video__preview">
                             <?= $post['youtube_url'] ? embed_youtube_cover($post['youtube_url']) : ''; ?>
-                            <img src="img/coast-medium.jpg" alt="Превью к видео" width="360" height="188">
                           </div>
                           <a href="post-details.php" class="post-video__play-big button">
                             <svg class="post-video__play-big-icon" width="14" height="14">
@@ -154,8 +153,9 @@
                 <?php foreach ($post['tags'] as $tag_name) : ?>
             <li>
               <a
-                href="search.php?keywords=
-                    <?= '%23' . htmlspecialchars($tag_name) ?>"><?= '#' . htmlspecialchars($tag_name) ?></a>
+                href=
+                "search.php?keywords=<?='%23' . htmlspecialchars($tag_name)?>"><?='#' . htmlspecialchars($tag_name)?>
+                </a>
             </li>
                 <?php endforeach; ?>
           </ul>

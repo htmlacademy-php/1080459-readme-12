@@ -411,7 +411,7 @@ function validateYoutubeURL(array $inputArray, string $parameterName): ?string
             $res = 'Видео по ссылке не найдено';
         }
     }
-    return $res;
+    return ($res === true) ? null : $res;
 }
 
 /**

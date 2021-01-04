@@ -35,7 +35,7 @@
                 <svg class="post__indicator-icon" width="19" height="17">
                   <use xlink:href="#icon-repost"></use>
                 </svg>
-                <span>5</span>
+                <span><?= $post['reposts'] ?? '' ?></span>
                 <span class="visually-hidden">количество репостов</span>
               </a>
             </div>
@@ -45,12 +45,13 @@
             <form class="comments__form form" action="comment.php" method="post">
                 <input type="hidden" name="post-id" value="<?= $post['id']?>">
               <div class="comments__my-avatar">
+              <?php if (isset($user['avatar'])) : ?>
                 <img class="comments__picture" src="img/<?= $user['avatar']?>" alt="Аватар пользователя">
+              <?php endif; ?>
               </div>
                 <div class="form__input-section <?= !empty($comment_errors) ? 'form__input-section--error' : '' ?>">
                   <textarea class="comments__textarea form__textarea form__input"
-                  name="comment" placeholder="Ваш комментарий">
-                  </textarea>
+                  name="comment" placeholder="Ваш комментарий"></textarea>
                   <label class="visually-hidden">Ваш комментарий</label>
                     <?php if (!empty($comment_errors)) : ?>
                         <button class="form__error-button button" type="button">!</button>
@@ -69,7 +70,9 @@
                     <li class="comments__item user">
                     <div class="comments__avatar">
                         <a class="user__avatar-link" href="#">
+                        <?php if (isset($comment['avatar'])) : ?>
                         <img class="comments__picture" src="img/<?=$comment['avatar'];?>" alt="Аватар пользователя">
+                        <?php endif; ?>
                         </a>
                     </div>
                     <div class="comments__info">

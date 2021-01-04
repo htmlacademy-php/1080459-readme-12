@@ -5,7 +5,9 @@
       <div class="profile__user user container">
         <div class="profile__user-info user__info">
           <div class="profile__avatar user__avatar">
+            <?php if (isset($owner['avatar'])) : ?>
             <img class="profile__picture user__picture" src="img/<?= $owner['avatar'] ?>" alt="Аватар пользователя">
+            <?php endif; ?>
           </div>
           <div class="profile__name-wrapper user__name-wrapper">
             <span class="profile__name user__name"><?= $owner['username'] ?? '' ?></span>
@@ -33,7 +35,7 @@
           <a class="profile__user-button user__button user__button--subscription button button--main"
             href="subscribe.php?id=<?= $owner['id'] ?>"><?= $user['subscribed'] ? 'Отписаться' : 'Подписаться' ?></a>
           <a class="profile__user-button user__button user__button--writing button button--green"
-            href="message.php">Сообщение</a>
+            href="messages.php">Сообщение</a>
         </div>
         <?php endif; ?>
       </div>
@@ -228,8 +230,11 @@
                             ?>
                             <span class="visually-hidden">Фото</span>
                             <div class="post-mini__image-wrapper">
-                              <img class="post-mini__image" src="img/rock-small.png" width="109" height="109"
-                                alt="Превью публикации">
+                            <?php
+                            $img_src = ($like['content']) ? ($like['content']) : ($like['img_url']);
+                            if (isset($img_src)) : ?>
+                              <img class="post-mini__image"src="img/<?= htmlspecialchars($img_src); ?>" alt="Превью публикации" width="109" height="109">
+                            <?php endif; ?>
                             </div>
                             <?php
                             break;
@@ -237,8 +242,7 @@
                             ?>
                             <span class="visually-hidden">Видео</span>
                             <div class="post-mini__image-wrapper">
-                              <img class="post-mini__image" src="img/coast-small.png" width="109" height="109"
-                                alt="Превью публикации">
+                            <?= $like['youtube_url'] ? embed_youtube_cover($like['youtube_url']) : '' ?>
                               <span class="post-mini__play-big">
                                 <svg class="post-mini__play-big-icon" width="12" height="13">
                                   <use xlink:href="#icon-video-play-big"></use>

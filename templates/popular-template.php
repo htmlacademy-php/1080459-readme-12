@@ -121,7 +121,6 @@
                     <div class="post-video__block">
                       <div class="post-video__preview">
                       <?= $post['youtube_url'] ? embed_youtube_cover($post['youtube_url']) : ''; ?>
-                      <img src="img/coast-medium.jpg" alt="Превью к видео" width="360" height="188">
                       </div>
                       <a href="post-details.php" class="post-video__play-big button">
                       <svg class="post-video__play-big-icon" width="14" height="14">
@@ -180,15 +179,13 @@
         <div class="popular__page-links">
         <?php if ($page_number > 1) :?>
             <a class="popular__page-link popular__page-link--prev button button--gray"
-            href="popular.php?page=<?= $page_number - 1?>
-            <?= $filter ? '&filter=' . $filter : ''?><?= $sort ? '&sort=' . $sort : ''?>">
+            href="popular.php?page=<?= $page_number - 1?><?= $filter ? '&filter=' . $filter : ''?><?= $sort ? '&sort=' . $sort : ''?>">
             Предыдущая страница
             </a>
         <?php endif; ?>
         <?php if ($page_number < $total_posts / $page_limit) :?>
             <a class="popular__page-link popular__page-link--next button button--gray"
-            href="popular.php?page=<?= $page_number + 1?><?= $filter ? '&filter=' . $filter : ''?>
-            <?= $sort ? '&sort=' . $sort : ''?>">
+            href="popular.php?page=<?= $page_number + 1?><?= $filter ? '&filter=' . $filter : ''?><?= $sort ? '&sort=' . $sort : ''?>">
             Следующая страница
             </a>
         <?php endif; ?>
