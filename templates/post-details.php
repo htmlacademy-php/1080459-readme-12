@@ -12,7 +12,7 @@
           <div class="post__indicators">
             <div class="post__buttons">
               <a class="post__indicator post__indicator--likes button"
-              href="like.php?id=<?= $post['id'] ?>" title="Лайк">
+              href="like.php?id=<?= $post['id'] ?? '' ?>" title="Лайк">
                 <svg class="post__indicator-icon" width="20" height="17">
                   <use xlink:href="#icon-heart"></use>
                 </svg>
@@ -22,7 +22,7 @@
                 <span><?= $post['likes'] ?? '' ?></span>
                 <span class="visually-hidden">количество лайков</span>
               </a>
-              <a class="post__indicator post__indicator--comments button" href="post.php?id=<?= $post['id'] ?>"
+              <a class="post__indicator post__indicator--comments button" href="post.php?id=<?= $post['id'] ?? '' ?>"
               title="Комментарии">
                 <svg class="post__indicator-icon" width="19" height="17">
                   <use xlink:href="#icon-comment"></use>
@@ -31,7 +31,7 @@
                 <span class="visually-hidden">количество комментариев</span>
               </a>
               <a class="post__indicator post__indicator--repost button"
-              href="repost.php?id=<?= $post['id'] ?>" title="Репост">
+              href="repost.php?id=<?= $post['id'] ?? '' ?>" title="Репост">
                 <svg class="post__indicator-icon" width="19" height="17">
                   <use xlink:href="#icon-repost"></use>
                 </svg>
@@ -39,11 +39,11 @@
                 <span class="visually-hidden">количество репостов</span>
               </a>
             </div>
-            <span class="post__view"><?=$post['view_count']?> просмотров</span>
+            <span class="post__view"><?= $post['view_count'] ?? '' ?> просмотров</span>
           </div>
           <div class="comments">
             <form class="comments__form form" action="comment.php" method="post">
-                <input type="hidden" name="post-id" value="<?= $post['id']?>">
+                <input type="hidden" name="post-id" value="<?= $post['id'] ?? '' ?>">
               <div class="comments__my-avatar">
               <?php if (isset($user['avatar'])) : ?>
                 <img class="comments__picture" src="img/<?= $user['avatar']?>" alt="Аватар пользователя">
@@ -77,11 +77,11 @@
                     </div>
                     <div class="comments__info">
                         <div class="comments__name-wrapper">
-                        <a class="comments__user-name" href="profile.php?id=?<?= $comment['author_id']?>">
+                        <a class="comments__user-name" href="profile.php?id=?<?= $comment['author_id'] ?? '' ?>">
                             <span><?= $comment['author_name'] ?? '' ?></span>
                         </a>
-                        <time class="comments__time" datetime="<?= $comment['dt_add'] ?>">
-                            <?= absolute_time_to_relative($comment['dt_add'], 'назад'); ?>
+                        <time class="comments__time" datetime="<?= $comment['dt_add'] ?? '' ?>">
+                            <?= $comment['dt_add'] ? absolute_time_to_relative($comment['dt_add'], 'назад') : ''; ?>
                         </time>
                         </div>
                         <p class="comments__text">
@@ -91,10 +91,6 @@
                     </li>
                     <?php endforeach; ?>
                 </ul>
-                <a class="comments__more-link" href="#">
-                    <span>Показать все комментарии</span>
-                    <sup class="comments__amount"><?= count($comments) ?></sup>
-                </a>
                 </div>
             <?php endif; ?>
           </div>
@@ -103,34 +99,38 @@
           <div class="post-details__user-info user__info">
             <div class="post-details__avatar user__avatar">
               <a class="post-details__avatar-link user__avatar-link" href="#">
+              <?php if (isset($author['avatar'])) : ?>
                 <img class="post-details__picture user__picture" src="img/<?=$author['avatar']?>"
                 alt="Аватар пользователя">
+              <?php endif; ?>
               </a>
             </div>
             <div class="post-details__name-wrapper user__name-wrapper">
-              <a class="post-details__name user__name" href="profile.php?id=<?= $author['id'] ?>">
-                <span><?= $author['username'] ?></span>
+              <a class="post-details__name user__name" href="profile.php?id=<?= $author['id'] ?? '' ?>">
+                <span><?= $author['username'] ?? '' ?></span>
               </a>
               <time class="post-details__time user__time" datetime="<?= $author['dt_add'] ?? ''?>">
-              <?= absolute_time_to_relative($author['dt_add'], 'на сайте'); ?></time>
+              <?= $author['dt_add'] ? absolute_time_to_relative($author['dt_add'], 'на сайте') : ''; ?></time>
             </div>
           </div>
           <div class="post-details__rating user__rating">
             <p class="post-details__rating-item user__rating-item user__rating-item--subscribers">
               <span class="post-details__rating-amount user__rating-amount"><?= $author['followers'] ?></span>
               <span class="post-details__rating-text user__rating-text">
-              <?= get_noun_plural_form($author['followers'], 'подписчик', 'подписчика', 'подписчиков'); ?></span>
+              <?= $author['followers'] ?
+                get_noun_plural_form($author['followers'], 'подписчик', 'подписчика', 'подписчиков') : ''; ?></span>
             </p>
             <p class="post-details__rating-item user__rating-item user__rating-item--publications">
               <span class="post-details__rating-amount user__rating-amount"><?= $author['posts'] ?></span>
               <span class="post-details__rating-text user__rating-text">
-              <?= get_noun_plural_form($author['posts'], 'публикация', 'публикации', 'публикаций'); ?></span>
+              <?= $author['posts'] ?
+                get_noun_plural_form($author['posts'], 'публикация', 'публикации', 'публикаций') : ''; ?></span>
             </p>
           </div>
           <?php if ($user['id'] != $author['id']) : ?>
             <div class="post-details__user-buttons user__buttons">
               <a class="user__button user__button--subscription button button--main"
-              href="subscribe.php?id=<?= $author['id'] ?>">
+              href="subscribe.php?id=<?= $author['id'] ?? '' ?>">
                 <?= $user['subscribed'] ? 'Отписаться' : 'Подписаться' ?></a>
               <a class="user__button user__button--writing button button--green" href="message.php">Сообщение</a>
             </div>

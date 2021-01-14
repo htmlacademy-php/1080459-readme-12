@@ -20,12 +20,13 @@ function get_dialogs($connection, $user_id)
     INNER JOIN users
     ON users.id = dialog
     ORDER BY last_message DESC ";
+    $dialogs = [];
     $dialogs_mysqli = secure_query($connection, $select_dialogs_query, $user_id, $user_id, $user_id);
-    while ($dialogs = mysqli_fetch_array($dialogs_mysqli, MYSQLI_ASSOC)) {
-        $dialogsAssoc[$dialogs['dialog']] = array_slice($dialogs, 1);
-        $dialogsAssoc[$dialogs['dialog']]['messages'] = [];
+    while ($dialogs_assoc = mysqli_fetch_array($dialogs_mysqli, MYSQLI_ASSOC)) {
+        $dialogs[$dialogs_assoc['dialog']] = array_slice($dialogs_assoc, 1);
+        $dialogs[$dialogs_assoc['dialog']]['messages'] = [];
     }
-    return $dialogsAssoc;
+    return $dialogs;
 }
 
 /**

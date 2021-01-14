@@ -1,4 +1,4 @@
-<section class="adding-post__text tabs__content <?= ($form_type == 'text') ? 'tabs__content--active' : '' ?>">
+<section class="adding-post__text tabs__content <?= ($form_type === 'text') ? 'tabs__content--active' : '' ?>">
   <h2 class="visually-hidden">Форма добавления текста</h2>
   <form class="adding-post__form form" action="add.php" method="post">
     <input type="hidden" id="form-type" name="form-type" value="text">

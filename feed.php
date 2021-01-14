@@ -11,7 +11,7 @@ if ($user === null) {
 $title = $settings['site_name'] . ' | Моя лента';
 $content_types = get_content_types($connection);
 $content_type_names = array_column($content_types, 'type_class');
-$filter = white_list($_GET['filter'], $content_type_names);
+$filter = isset($_GET['filter']) ? white_list($_GET['filter'], $content_type_names) : '';
 $posts = get_feed_posts($connection, $filter, $user['id']);
 $add_post_button = true;
 

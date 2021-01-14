@@ -15,6 +15,7 @@ if ($user === null) {
     exit();
 }
 $title = $settings['site_name'] . ' | Сообщения';
+$errors = '';
 $add_post_button = true;
 
 if (count($_POST) > 0 && isset($_POST['receiver-id']) && ($_POST['receiver-id'] !== $user['id'])) {
@@ -56,7 +57,7 @@ $layout_content = include_template(
         'title' => $title,
         'user' => $user,
         'content' => $page_content,
-        'active_section' => 'popular',
+        'active_section' => 'messages',
         'add_post_button' => $add_post_button
     ]
 );

@@ -42,24 +42,29 @@ function save_post(mysqli $connection, array $post, array $post_types, array $us
         $post['heading'],
         $user['id'],
         $post_types[$post_type],
-        $post['content'],
+        $post['content'] ?? null,
         0,
         $current_time
     ];
 
-    if ($post_type == 'quote') {
+    if ($post_type === 'quote') {
         array_push($fields, 'quote_author');
         array_push($parameters, $post['quote-author']);
     }
 
-    if ($post_type == 'video') {
+    if ($post_type === 'video') {
         array_push($fields, 'youtube_url');
         array_push($parameters, $post['video-url']);
     }
 
-    if ($post_type == 'photo') {
+    if ($post_type === 'photo') {
         array_push($fields, 'img_url');
         array_push($parameters, $file_url);
+    }
+
+    if ($post_type === 'link') {
+        array_push($fields, 'url');
+        array_push($parameters, $post['link-url']);
     }
 
     $finalFields = [];

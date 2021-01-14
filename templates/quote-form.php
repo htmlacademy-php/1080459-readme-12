@@ -1,4 +1,4 @@
-<section class="adding-post__quote tabs__content <?php ($form_type == 'quote') ? 'tabs__content--active' : ''?>">
+<section class="adding-post__quote tabs__content <?php ($form_type === 'quote') ? 'tabs__content--active' : ''?>">
   <h2 class="visually-hidden">Форма добавления цитаты</h2>
   <form class="adding-post__form form" action="#" method="post">
     <input type="hidden" id="form-type" name="form-type" value="quote">

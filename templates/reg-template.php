@@ -243,7 +243,7 @@
               <div
                 class="form__input-section <?= (!empty($form_errors['email'])) ? 'form__input-section--error' : '' ?>">
                 <input class="registration__input form__input" id="registration-email" type="email" name="email"
-                  placeholder="Укажите эл.почту" value=<?= $form_values['email'] ?>>
+                  placeholder="Укажите эл.почту" value=<?= $form_values['email'] ?? '' ?>>
                 <button class="form__error-button button" type="button">!
                   <span class="visually-hidden">Информация об ошибке</span>
                 </button>
@@ -260,7 +260,7 @@
                 class="form__input-section
                 <?php (!empty($form_errors['login'])) ? 'form__input-section--error' : '' ?>">
                 <input class="registration__input form__input" id="registration-login" type="text" name="login"
-                  placeholder="Укажите логин" value=<?= $form_values['login'] ?>>
+                  placeholder="Укажите логин" value=<?= $form_values['login'] ?? ''?>>
                 <button class="form__error-button button" type="button">!<span class="visually-hidden">Информация об
                     ошибке</span></button>
                 <div class="form__error-text">
@@ -276,7 +276,7 @@
                 class="form__input-section
                 <?php (!empty($form_errors['password'])) ? 'form__input-section--error' : '' ?>">
                 <input class="registration__input form__input" id="registration-password" type="password"
-                  name="password" placeholder="Придумайте пароль" value=<?= $form_values['password'] ?>>
+                  name="password" placeholder="Придумайте пароль" value=<?= $form_values['password'] ?? '' ?>>
                 <button class="form__error-button button" type="button">!<span class="visually-hidden">Информация об
                     ошибке</span></button>
                 <div class="form__error-text">
@@ -292,7 +292,8 @@
                 class="form__input-section
                 <?php (!empty($form_errors['password-repeat'])) ? 'form__input-section--error' : '' ?>">
                 <input class="registration__input form__input" id="registration-password-repeat" type="password"
-                  name="password-repeat" placeholder="Повторите пароль" value=<?= $form_values['password-repeat'] ?>>
+                  name="password-repeat" placeholder="Повторите пароль"
+                  value=<?= $form_values['password-repeat'] ?? '' ?>>
                 <button class="form__error-button button" type="button">!<span class="visually-hidden">Информация об
                     ошибке</span></button>
                 <div class="form__error-text">

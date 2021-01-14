@@ -7,9 +7,9 @@ require_once(__DIR__ . '/lib/base.php');
 $add_user_query = "INSERT into users SET username = ?, email = ?, password = ?, avatar = ?, dt_add =?";
 
 $validation_rules = [
-    'email' => 'filled|correctemail|exists:users,email',
-    'login' => 'filled|exists:users,username',
-    'password' => 'filled|repeatpassword',
+    'email' => 'filled|correctemail|short:254|exists:users,email',
+    'login' => 'filled|short:30|exists:users,username',
+    'password' => 'filled|short:50|repeatpassword',
     'password-repeat' => 'filled|repeatpassword'
 ];
 $form_error_codes = [

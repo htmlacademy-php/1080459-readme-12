@@ -39,7 +39,7 @@
         <ul class="popular__filters-list filters__list">
           <li class="popular__filters-item popular__filters-item--all filters__item filters__item--all">
             <a class="filters__button filters__button--ellipse filters__button--all
-            <?= ($filter == '') ? 'filters__button--active' : '' ?>" href="#">
+            <?= ($filter === '') ? 'filters__button--active' : '' ?>" href="#">
               <span>Все</span>
             </a>
           </li>
@@ -47,7 +47,7 @@
           <li class="popular__filters-item filters__item">
             <a class="button filters__button
               <?= $content_type['type_class'] ? 'filters__button--' . $content_type['type_class'] : '' ?>
-              <?= ($filter == $content_type['type_class']) ? 'filters__button--active' : ''?>"
+              <?= ($filter === $content_type['type_class']) ? 'filters__button--active' : ''?>"
               href="popular.php?filter=<?=$content_type['type_class'] ?>">
               <span class="visually-hidden"><?= $content_type['type_name'] ?></span>
               <svg class="filters__icon" width="22" height="21">
@@ -101,7 +101,7 @@
                     ?>
                     <div class="post-link__wrapper">
                       <a class="post-link__external" href="
-                      <?= $post['content'] ? htmlspecialchars($post['content']) : '' ?>"
+                      <?= $post['url'] ? htmlspecialchars($post['url']) : '' ?>"
                         title="Перейти по ссылке">
                         <div class="post-link__info-wrapper">
                           <div class="post-link__icon-wrapper">
@@ -111,7 +111,7 @@
                             <h3><?= $post['title'] ? htmlspecialchars($post['title']) : '' ?></h3>
                           </div>
                         </div>
-                        <span><?= $post['content'] ? htmlspecialchars($post['content']) : '' ?></span>
+                        <span><?= $post['url'] ? htmlspecialchars(remove_url_protocol($post['url'])) : '' ?></span>
                       </a>
                     </div>
                     <?php
@@ -179,13 +179,16 @@
         <div class="popular__page-links">
         <?php if ($page_number > 1) :?>
             <a class="popular__page-link popular__page-link--prev button button--gray"
-            href="popular.php?page=<?= $page_number - 1?><?= $filter ? '&filter=' . $filter : ''?><?= $sort ? '&sort=' . $sort : ''?>">
+            href="popular.php?page=<?= $page_number - 1?> .
+            <?= $filter ? '&filter=' . $filter : ''?> .
+            <?= $sort ? '&sort=' . $sort : ''?>">
             Предыдущая страница
             </a>
         <?php endif; ?>
         <?php if ($page_number < $total_posts / $page_limit) :?>
             <a class="popular__page-link popular__page-link--next button button--gray"
-            href="popular.php?page=<?= $page_number + 1?><?= $filter ? '&filter=' . $filter : ''?><?= $sort ? '&sort=' . $sort : ''?>">
+            href="popular.php?page=<?= $page_number + 1?><?= $filter ? '&filter=' . $filter : ''?> .
+            <?= $sort ? '&sort=' . $sort : ''?>">
             Следующая страница
             </a>
         <?php endif; ?>

@@ -1,4 +1,4 @@
-<section class="adding-post__video tabs__content <?= ($form_type == 'video') ? 'tabs__content--active' : '' ?>">
+<section class="adding-post__video tabs__content <?= ($form_type === 'video') ? 'tabs__content--active' : '' ?>">
   <h2 class="visually-hidden">Форма добавления видео</h2>
   <form class="adding-post__form form" action="#" method="post" enctype="multipart/form-data">
     <input type="hidden" id="form-type" name="form-type" value="video">

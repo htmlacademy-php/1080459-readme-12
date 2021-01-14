@@ -13,7 +13,7 @@ INSERT into posts SET title = 'Цитата', post_type = 1, content = 'Мы в 
 INSERT into posts SET title = 'Моя мечта', post_type = 3, content = 'coast-medium.jpg', author_id = 1, view_count = 20, img_url = 'coast.jpg', dt_add = '2015-07-04 17:02:11';
 INSERT into posts SET title = 'Игра престолов', post_type = 2, content = 'Не могу дождаться начала финального сезона своего любимого сериала!', author_id = 2, view_count = 10, dt_add = '2020-09-01 00:00:00';
 INSERT into posts SET title = 'Наконец, обработал фотки!', post_type = 3, content = 'rock-medium.jpg', author_id = 3, view_count = 999, img_url = 'rock.jpg', dt_add = '2019-03-24 23:05:17';
-INSERT into posts SET title = 'Лучшие курсы', post_type = 4, content = 'www.htmlacademy.ru', author_id = 2, view_count = 500, dt_add = '2020-07-24 05:08:13';
+INSERT into posts SET title = 'Лучшие курсы', post_type = 4, url = 'http://www.htmlacademy.ru', author_id = 2, view_count = 500, dt_add = '2020-07-24 05:08:13';
 /* придумайте пару комментариев к разным постам */
 INSERT into comments SET user_id = 2, post_id = 4, content = 'Отличные фото!';
 INSERT into comments SET user_id = 1, post_id = 5, content = 'Сейчас там учусь';
@@ -30,6 +30,6 @@ SELECT comments.content, users.username FROM comments INNER JOIN users ON commen
 /* добавить лайк к посту */
 INSERT INTO likes SET user_id=1, post_id=3;
 /*Сообщения */
-INSERT INTO messages SET dt_add = '2020-12-06 10:28:35', content = 'Озеро Байкал – огромное древнее озеро в горах Сибири к северу от монгольской границы. Байкал считается самым глубоким озером в мире. Он окружен сетью пешеходных маршрутов, называемых Большой байкальской тропой. Деревня Листвянка, расположенная на западном берегу озера, – популярная отправная точка для летних экскурсий. Зимой здесь можно кататься на коньках и собачьих упряжках.', sender_id = 1, receiver_id = 3
-INSERT INTO messages SET dt_add = '2020-12-06 10:30:12', content = 'Здорова, чувак!', sender_id = 3, receiver_id = 4
+INSERT INTO messages SET dt_add = '2020-12-06 10:28:35', content = 'Озеро Байкал – огромное древнее озеро в горах Сибири к северу от монгольской границы. Байкал считается самым глубоким озером в мире. Он окружен сетью пешеходных маршрутов, называемых Большой байкальской тропой. Деревня Листвянка, расположенная на западном берегу озера, – популярная отправная точка для летних экскурсий. Зимой здесь можно кататься на коньках и собачьих упряжках.', sender_id = 1, receiver_id = 5
+INSERT INTO messages SET dt_add = '2020-12-06 10:30:12', content = 'Здорова, чувак!', sender_id = 3, receiver_id = 5
 

@@ -13,7 +13,7 @@
               <a class="adding-post__tabs-link filters__button
                 <?= $content_type['type_class'] ? 'filters__button--' . $content_type['type_class'] : '' ?>
                 tabs__item button
-                <?= ($form_type == $content_type['type_class']) ? 'tabs__item--active filters__button--active' : '' ?>"
+                <?= ($form_type === $content_type['type_class']) ? 'tabs__item--active filters__button--active' : '' ?>"
                 href="add.php?tab=<?= $content_type['type_class']?>">
                 <svg class="filters__icon" width="22" height="18">
                   <use xlink:href="#icon-filter-<?= $content_type['type_class']; ?>"></use>
@@ -27,7 +27,7 @@
         <?php endif; ?>
         <div class="adding-post__tab-content">
           <?php foreach ($content_types as $content_type) {
-                if ($form_type == $content_type['type_class']) {
+                if ($form_type === $content_type['type_class']) {
                     $form = include_template(
                         $content_type['type_class'] . '-form.php',
                         [

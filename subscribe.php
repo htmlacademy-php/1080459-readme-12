@@ -18,7 +18,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     exit();
 }
 $author_id = (int)$_GET['id'];
-if ($author_id == $user['id']) {
+if ($author_id === $user['id']) {
     header("Location: profile.php?id=" . $author_id);
     exit();
 }

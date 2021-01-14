@@ -9,6 +9,7 @@ if ($user === null) {
     header("Location: index.php");
     exit();
 }
+$title = $settings['site_name'] . ' | Поиск';
 
 $add_post_button = true;
 if (!isset($_GET['keywords'])) {
@@ -16,12 +17,12 @@ if (!isset($_GET['keywords'])) {
     exit();
 }
 $keywords = trim($_GET['keywords']);
-if ($keywords == '') {
+if ($keywords === '') {
     display_404_page();
     exit();
 }
 $search_results = search_posts($connection, $keywords);
-if (count($search_results) == 0) {
+if (count($search_results) === 0) {
     $page_content = include_template(
         'no-results.php',
         [

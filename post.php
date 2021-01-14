@@ -18,8 +18,8 @@ if ($post === null) {
     display_404_page();
     exit();
 }
+$comment_errors = $_SESSION['errors'] ?? null;
 if (!empty($_SESSION['errors'])) {
-    $comment_errors = $_SESSION['errors'];
     unset($_SESSION['errors']);
 }
 $author_id = $post['author_id'];
@@ -27,7 +27,8 @@ $author = get_post_author($connection, $author_id);
 $comments = get_post_comments($connection, $post_id);
 $views_mysqli = increase_post_views($connection, $post_id);
 $user['subscribed'] = get_user_subscribed($connection, $user['id'], $author_id);
-
+$title = $settings['site_name'] . ' | ' . $post['title'] ?? '';
+$add_post_button = true;
 $page_content = include_template(
     'post-details.php',
     [
@@ -43,7 +44,8 @@ $layout_content = include_template(
     [
         'content' => $page_content,
         'user' => $user,
-        'title' => $title
+        'title' => $title,
+        'add_post_button' => $add_post_button
     ]
 );
 print($layout_content);

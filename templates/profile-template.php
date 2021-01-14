@@ -13,7 +13,7 @@
             <span class="profile__name user__name"><?= $owner['username'] ?? '' ?></span>
             <time class="profile__user-time user__time"
               datetime="<?= $owner['dt_add'] ?? ''?>">
-              <?= absolute_time_to_relative($owner['dt_add'], 'на сайте'); ?></time>
+              <?= $owner['dt_add'] ? absolute_time_to_relative($owner['dt_add'], 'на сайте') : ''; ?></time>
           </div>
         </div>
         <div class="profile__rating user__rating">
@@ -21,19 +21,22 @@
             <span class="user__rating-amount"><?= count($posts) ?? '' ?></span>
             <span
               class="profile__rating-text user__rating-text">
-              <?= get_noun_plural_form(count($posts), 'публикация', 'публикации', 'публикаций') ?></span>
+              <?= count($posts) ?
+                get_noun_plural_form(count($posts), 'публикация', 'публикации', 'публикаций') : '' ?></span>
           </p>
           <p class="profile__rating-item user__rating-item user__rating-item--subscribers">
             <span class="user__rating-amount"><?= $owner['followers'] ?? '' ?></span>
             <span
               class="profile__rating-text user__rating-text">
-              <?= get_noun_plural_form($owner['followers'], 'подписчик', 'подписчика', 'подписчиков') ?></span>
+              <?= $owner['followers'] ?
+                get_noun_plural_form($owner['followers'], 'подписчик', 'подписчика', 'подписчиков') : '' ?></span>
           </p>
         </div>
         <?php if ($user['id'] != $owner['id']) : ?>
         <div class="profile__user-buttons user__buttons">
           <a class="profile__user-button user__button user__button--subscription button button--main"
-            href="subscribe.php?id=<?= $owner['id'] ?>"><?= $user['subscribed'] ? 'Отписаться' : 'Подписаться' ?></a>
+          href="subscribe.php?id=<?= $owner['id'] ?? '' ?>">
+            <?= $user['subscribed'] ? 'Отписаться' : 'Подписаться' ?></a>
           <a class="profile__user-button user__button user__button--writing button button--green"
             href="messages.php">Сообщение</a>
         </div>
@@ -47,23 +50,23 @@
           <ul class="profile__tabs-list filters__list tabs__list">
             <li class="profile__tabs-item filters__item">
               <a class="profile__tabs-link filters__button
-              <?= ($tab == 'posts') ? 'filters__button--active' : '' ?> tabs__item button"
+              <?= ($tab === 'posts') ? 'filters__button--active' : '' ?> tabs__item button"
                 href="profile.php?id=<?= $owner['id'] ?>&tab=posts">Посты</a>
             </li>
             <li class="profile__tabs-item filters__item">
               <a class="profile__tabs-link filters__button
-              <?= ($tab == 'likes') ? 'filters__button--active' : '' ?> tabs__item button"
+              <?= ($tab === 'likes') ? 'filters__button--active' : '' ?> tabs__item button"
                 href="profile.php?id=<?= $owner['id'] ?>&tab=likes">Лайки</a>
             </li>
             <li class="profile__tabs-item filters__item">
               <a class="profile__tabs-link filters__button
-              <?= ($tab == 'subscribes') ? 'filters__button--active' : '' ?> tabs__item button"
+              <?= ($tab === 'subscribes') ? 'filters__button--active' : '' ?> tabs__item button"
                 href="profile.php?id=<?= $owner['id'] ?>&tab=subscribes">Подписки</a>
             </li>
           </ul>
         </div>
         <div class="profile__tab-content">
-          <section class="profile__posts tabs__content <?= ($tab == 'posts') ? 'tabs__content--active' : '' ?>">
+          <section class="profile__posts tabs__content <?= ($tab === 'posts') ? 'tabs__content--active' : '' ?>">
             <h2 class="visually-hidden">Публикации</h2>
             <?php foreach ($posts as $post) : ?>
             <article class="profile__post post post-<?=$post['type_class'];?>">
@@ -113,16 +116,16 @@
                     case 'link':
                         ?>
                         <div class="post-link__wrapper">
-                        <a class="post-link__external" href="<?=$post['content'];?>" title="Перейти по ссылке">
+                        <a class="post-link__external" href="<?=$post['content'] ?? '';?>" title="Перейти по ссылке">
                           <div class="post-link__info-wrapper">
                             <div class="post-link__icon-wrapper">
                               <img src="https://www.google.com/s2/favicons?domain=vitadental.ru" alt="Иконка">
                             </div>
                             <div class="post-link__info">
-                              <h3><?=htmlspecialchars($post['title']) ?? '';?></h3>
+                              <h3><?= $post['title'] ? htmlspecialchars($post['title']) : ''; ?></h3>
                             </div>
                           </div>
-                          <span><?=htmlspecialchars($post['content']);?></span>
+                          <span><?= $post['content'] ? htmlspecialchars($post['content']) : ''; ?></span>
                         </a>
                         </div>
                         <?php
@@ -131,7 +134,7 @@
                         ?>
                         <div class="post-video__block">
                         <div class="post-video__preview">
-                            <?= embed_youtube_cover($post['youtube_url'] ?? ''); ?>
+                            <?= $post['youtube_url'] ? embed_youtube_cover($post['youtube_url']) : ''; ?>
                         </div>
                         <div class="post-video__control">
                           <button class="post-video__play post-video__play--paused button button--video" type="button">
@@ -159,7 +162,7 @@
               <footer class="post__footer">
                 <div class="post__indicators">
                   <div class="post__buttons">
-                    <a class="post__indicator post__indicator--likes button" href="like.php?id=<?= $post['id'] ?>"
+                    <a class="post__indicator post__indicator--likes button" href="like.php?id=<?= $post['id'] ?? ''?>"
                       title="Лайк">
                       <svg class="post__indicator-icon" width="20" height="17">
                         <use xlink:href="#icon-heart"></use>
@@ -170,7 +173,8 @@
                       <span><?= $post['likes'] ?? '' ?></span>
                       <span class="visually-hidden">количество лайков</span>
                     </a>
-                    <a class="post__indicator post__indicator--repost button" href="repost.php?id=<?= $post['id'] ?>"
+                    <a class="post__indicator post__indicator--repost button"
+                    href="repost.php?id=<?= $post['id'] ?? ''?>"
                       title="Репост">
                       <svg class="post__indicator-icon" width="19" height="17">
                         <use xlink:href="#icon-repost"></use>
@@ -180,7 +184,8 @@
                     </a>
                   </div>
                   <time class="post__time"
-                    datetime="<?= $post['dt_add'] ?? '' ?>"><?= absolute_time_to_relative($post['dt_add']); ?></time>
+                  datetime="<?= $post['dt_add'] ?? '' ?>"><?= $post['dt_add'] ?
+                    absolute_time_to_relative($post['dt_add']) : ''; ?></time>
                 </div>
                 <?php if (isset($post['tags'])) : ?>
                 <ul class="post__tags">
@@ -198,7 +203,7 @@
             </article>
             <?php endforeach; ?>
           </section>
-          <section class="profile__likes tabs__content <?= ($tab == 'likes') ? 'tabs__content--active' : '' ?>">
+          <section class="profile__likes tabs__content <?= ($tab === 'likes') ? 'tabs__content--active' : '' ?>">
             <h2 class="visually-hidden">Лайки</h2>
             <ul class="profile__likes-list">
               <?php foreach ($likes as $like) : ?>
@@ -213,8 +218,8 @@
                     </a>
                   </div>
                   <div class="post-mini__name-wrapper user__name-wrapper">
-                    <a class="post-mini__name user__name" href="profile.php?id=<?= $like['user_id'] ?>">
-                      <span><?= $like['username']?></span>
+                    <a class="post-mini__name user__name" href="profile.php?id=<?= $like['user_id'] ?? '' ?>">
+                      <span><?= $like['username'] ?? '' ?></span>
                     </a>
                     <div class="post-mini__action">
                       <span class="post-mini__activity user__additional">Лайкнул вашу публикацию</span>
@@ -223,7 +228,8 @@
                   </div>
                 </div>
                 <div class="post-mini__preview">
-                  <a class="post-mini__link" href="post.php?id=<?= $like['post_id']?>" title="Перейти на публикацию">
+                  <a class="post-mini__link" href="post.php?id=<?= $like['post_id'] ?? '' ?>"
+                  title="Перейти на публикацию">
                     <?php
                     switch ($like['type_class']) :
                         case 'photo':
@@ -233,7 +239,9 @@
                             <?php
                             $img_src = ($like['content']) ? ($like['content']) : ($like['img_url']);
                             if (isset($img_src)) : ?>
-                              <img class="post-mini__image"src="img/<?= htmlspecialchars($img_src); ?>" alt="Превью публикации" width="109" height="109">
+                              <img class="post-mini__image"
+                              src="img/<?= htmlspecialchars($img_src); ?>"
+                              alt="Превью публикации" width="109" height="109">
                             <?php endif; ?>
                             </div>
                             <?php
@@ -281,7 +289,7 @@
             </ul>
           </section>
           <section
-            class="profile__subscriptions tabs__content <?= ($tab == 'subscribes') ? 'tabs__content--active' : '' ?>">
+            class="profile__subscriptions tabs__content <?= ($tab === 'subscribes') ? 'tabs__content--active' : '' ?>">
             <h2 class="visually-hidden">Подписки</h2>
             <ul class="profile__subscriptions-list">
               <?php foreach ($subscribes as $subscribe) : ?>
@@ -290,7 +298,7 @@
                   <div class="post-mini__avatar user__avatar">
                     <a class="user__avatar-link" href="#">
                       <?php if (isset($subscribe['avatar'])) : ?>
-                      <img class="post-mini__picture user__picture" src="img/<?= $subscribe['avatar'] ?? '' ?>"
+                      <img class="post-mini__picture user__picture" src="img/<?= $subscribe['avatar'] ?>"
                         alt="Аватар пользователя">
                       <?php endif; ?>
                     </a>
@@ -301,7 +309,8 @@
                     </a>
                     <time class="post-mini__time user__additional"
                       datetime="<?= $subscribe['dt_add'] ?? '' ?>">
-                      <?= absolute_time_to_relative($subscribe['dt_add'], 'на сайте'); ?></time>
+                      <?= $subscribe['dt_add'] ?
+                        absolute_time_to_relative($subscribe['dt_add'], 'на сайте') : ''; ?></time>
                   </div>
                 </div>
                 <div class="post-mini__rating user__rating">
@@ -309,14 +318,15 @@
                     <span
                       class="post-mini__rating-amount user__rating-amount"><?= $subscribe['post_count'] ?? '' ?></span>
                     <span class="post-mini__rating-text user__rating-text">
-                      <?= get_noun_plural_form($subscribe['post_count'], 'публикация', 'публикации', 'публикаций') ?>
+                      <?= $subscribe['post_count'] ?
+                        get_noun_plural_form($subscribe['post_count'], 'публикация', 'публикации', 'публикаций') : '' ?>
                     </span>
                   </p>
                 </div>
                 <div class="post-mini__user-buttons user__buttons">
                   <a class="post-mini__user-button user__button user__button--subscription button
                     <?= $subscribe['user_subscribe'] ? 'button--quartz' : 'button--main' ?>"
-                    href="subscribe.php?id=<?= $subscribe['user_id'] ?>">
+                    href="subscribe.php?id=<?= $subscribe['user_id'] ?? '' ?>">
                     <?= $subscribe['user_subscribe'] ? 'Отписаться' : 'Подписаться' ?></a>
                 </div>
               </li>

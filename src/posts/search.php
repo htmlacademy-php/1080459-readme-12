@@ -29,7 +29,7 @@ function search_posts($connection, $keywords)
     $search_by_keywords_query = $search_query . "WHERE MATCH(title,content) AGAINST(?)";
 
     $search_results_mysqli =
-    (substr($keywords, 0, 1) == '#')
+    (substr($keywords, 0, 1) === '#')
     ? secure_query($connection, $search_by_tag_query, substr($keywords, 1))
     : secure_query($connection, $search_by_keywords_query, $keywords);
     $search_results = mysqli_fetch_all($search_results_mysqli, MYSQLI_ASSOC);

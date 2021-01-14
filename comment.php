@@ -19,7 +19,7 @@ if ($user === null) {
     header("Location: index.php");
     exit();
 }
-if (count($_POST) == 0 || !isset($_POST['post-id'])) {
+if (count($_POST) === 0 || !isset($_POST['post-id'])) {
     header("Location: index.php");
     exit();
 }

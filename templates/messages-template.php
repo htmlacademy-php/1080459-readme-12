@@ -8,7 +8,7 @@
         <?php foreach ($dialogs as $dialog_id => $dialog) : ?>
           <li class="messages__contacts-item">
             <a class="messages__contacts-tab
-            <?= ($active_dialog_id == $dialog_id) ? 'messages__contacts-tab--active tabs__item--active' : '' ?>
+            <?= ($active_dialog_id === $dialog_id) ? 'messages__contacts-tab--active tabs__item--active' : '' ?>
             tabs__item " href="messages.php?id=<?= $dialog_id ?>">
               <div class="messages__avatar-wrapper">
               <?php if (isset($dialog['avatar'])) : ?>
@@ -39,23 +39,23 @@
       <div class="messages__chat-wrapper">
       <?php foreach ($dialogs as $dialog_id => $dialog) : ?>
         <ul class="messages__list tabs__content
-            <?= ($active_dialog_id == $dialog_id) ? 'tabs__content--active' : '' ?>">
+            <?= ($active_dialog_id === $dialog_id) ? 'tabs__content--active' : '' ?>">
             <?php foreach ($dialog['messages'] as $message) : ?>
-            <li class="messages__item <?= ($user['id'] == $message['sender_id']) ? 'messages__item--my' : '' ?>">
+            <li class="messages__item <?= ($user['id'] === $message['sender_id']) ? 'messages__item--my' : '' ?>">
                   <div class="messages__info-wrapper">
                   <div class="messages__item-avatar">
                       <a class="messages__author-link" href="#">
-                      <?php $first_sender = ($user['id'] == $message['sender_id']) ? $user : $dialog; ?>
+                      <?php $first_sender = ($user['id'] === $message['sender_id']) ? $user : $dialog; ?>
                       <?php if (isset($first_sender['avatar'])) : ?>
                       <img class="messages__avatar"
-                      src="img/<?= ($user['id'] == $message['sender_id']) ? $user['avatar'] : $dialog['avatar']?>"
+                      src="img/<?= ($user['id'] === $message['sender_id']) ? $user['avatar'] : $dialog['avatar']?>"
                       alt="Аватар пользователя">
                       <?php endif; ?>
                       </a>
                   </div>
                   <div class="messages__item-info">
                       <a class="messages__author" href="#">
-                      <?= ($user['id'] == $message['sender_id']) ? $user['name'] : $dialog['username']?>
+                      <?= ($user['id'] === $message['sender_id']) ? $user['name'] : $dialog['username']?>
                       </a>
                       <?php if (isset($dialog['last_message'])) : ?>
                         <time class="messages__time" datetime="<?= $message['dt_add'] ?>">

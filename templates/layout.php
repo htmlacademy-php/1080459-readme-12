@@ -1,3 +1,5 @@
+<?php $active_section = $active_section ?? ''; ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -8,7 +10,6 @@
   <title><?= $title; ?></title>
   <link rel="stylesheet" href="css/main.css">
 </head>
-
 <body class="page">
   <div style="display: none">
     <svg xmlns="http://www.w3.org/2000/svg">
@@ -215,19 +216,19 @@
         <nav class="header__nav">
           <ul class="header__my-nav">
             <li class="header__my-page header__my-page--popular">
-              <a class="header__page-link <?= ($active_section == 'popular') ? 'header__page-link--active' : '' ?>"
+              <a class="header__page-link <?= ($active_section === 'popular') ? 'header__page-link--active' : '' ?>"
                 href="popular.php" title="Популярный контент">
                 <span class="visually-hidden">Популярный контент</span>
               </a>
             </li>
             <li class="header__my-page header__my-page--feed">
-              <a class="header__page-link <?= ($active_section == 'feed') ? 'header__page-link--active' : '' ?>"
+              <a class="header__page-link <?= ($active_section === 'feed') ? 'header__page-link--active' : '' ?>"
                 href="feed.php" title="Моя лента">
                 <span class="visually-hidden">Моя лента</span>
               </a>
             </li>
             <li class="header__my-page header__my-page--messages">
-              <a class="header__page-link <?= ($active_section == 'messages') ? 'header__page-link--active' : '' ?>"
+              <a class="header__page-link <?= ($active_section === 'messages') ? 'header__page-link--active' : '' ?>"
                 href="messages.php" title="Личные сообщения">
                 <span class="visually-hidden">Личные сообщения</span>
               </a>

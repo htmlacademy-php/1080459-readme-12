@@ -1,4 +1,4 @@
-<section class="adding-post__link tabs__content <?= ($form_type == 'link') ? 'tabs__content--active' : '' ?>">
+<section class="adding-post__link tabs__content <?= ($form_type === 'link') ? 'tabs__content--active' : '' ?>">
   <h2 class="visually-hidden">Форма добавления ссылки</h2>
   <form class="adding-post__form form" action="#" method="post">
     <input type="hidden" id="form-type" name="form-type" value="link">
